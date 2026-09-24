@@ -21,7 +21,10 @@ endef
 help: ## list targets
 	@grep -hE '^[a-zA-Z_-]+:.*## ' $(MAKEFILE_LIST) | awk 'BEGIN{FS=":.*## "}{printf "  \033[36m%-16s\033[0m %s\n",$$1,$$2}'
 
-up: ## create the k3d cluster with ingress, monitoring, postgres, redis, bank mock
+prereqs: ## install missing tools on Linux (docker, k3d, kubectl, helm, cosign, act, trivy)
+	scripts/install-prereqs.sh
+
+up: prereqs ## create the k3d cluster with ingress, monitoring, postgres, redis, bank mock
 	local/bootstrap.sh
 
 down: ## delete the cluster
@@ -118,4 +121,4 @@ chaos-db: ## add 3 s latency to every Postgres packet (toxiproxy)
 chaos-db-off: ## remove the latency
 	scripts/chaos-db.sh off
 
-.PHONY: help up down ci-runner deploy release images rollback status test lint tf-check tf-plan-localstack grafana grafana-password prometheus alertmanager alerts-log alert-demo admission-demo chaos-db chaos-db-off
+.PHONY: help prereqs up down ci-runner deploy release images rollback status test lint tf-check tf-plan-localstack grafana grafana-password prometheus alertmanager alerts-log alert-demo admission-demo chaos-db chaos-db-off

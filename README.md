@@ -22,6 +22,11 @@ Linux (tested on Ubuntu 24.04 / Debian 12, x86_64), at least 8 GB free RAM, and:
 | `python3.12` | tests, scripts |
 | `terraform` ≥ 1.11, `tflint`, `checkov` | infrastructure checks (optional) |
 
+Shortcut: `make prereqs` installs whichever of `docker`, `k3d`, `kubectl`,
+`helm`, `cosign`, `act` and `trivy` are missing (`make up` runs it
+automatically). The full manual list, including the Python and Terraform
+tools, is:
+
 ```
 # base packages, Python and Docker (log out and back in after usermod)
 sudo apt-get update && sudo apt-get install -y curl git make unzip gnupg lsb-release wget openssl bc python3.12 python3.12-venv
