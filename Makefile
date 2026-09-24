@@ -83,13 +83,29 @@ status: ## what is running
 	@kubectl -n settle get pods -o wide
 
 # --- checks --------------------------------------------------------------------
-test: ## unit tests (+ integration if PG_TEST_URL is set)
-	cd app && $(PY) -m pytest -q
+VENV_PY = $(CURDIR)/.venv/bin/python
+PYTHON_BIN ?= python3.12
 
-lint: ## ruff, migration lint, DB connection budget
+venv: .venv/.installed ## create .venv with the dev requirements (rebuilt if missing, broken or outdated)
+
+# the stamp is written only after pip succeeds, so a half-created .venv is rebuilt
+.venv/.installed: app/requirements-dev.txt app/requirements.txt
+	@command -v $(PYTHON_BIN) >/dev/null || { echo "$(PYTHON_BIN) not found (Ubuntu: apt-get install python3.12 python3.12-venv)"; exit 1; }
+	@$(PYTHON_BIN) -c 'import ensurepip' 2>/dev/null || { command -v apt-get >/dev/null \
+	  && $$([ "$$(id -u)" -eq 0 ] || echo sudo) apt-get install -y -qq python3.12-venv >/dev/null; } \
+	  || { echo "$(PYTHON_BIN) has no venv support (Ubuntu: apt-get install python3.12-venv)"; exit 1; }
+	rm -rf .venv
+	$(PYTHON_BIN) -m venv .venv
+	.venv/bin/pip install -q -r app/requirements-dev.txt
+	@touch $@
+
+test: venv ## unit tests (+ integration if PG_TEST_URL is set)
+	cd app && $(VENV_PY) -m pytest -q
+
+lint: venv ## ruff, migration lint, DB connection budget
 	cd app && ../.venv/bin/ruff check .
-	$(PY) scripts/lint_migrations.py
-	kubectl kustomize deploy/k8s/overlays/local | $(PY) scripts/check_db_budget.py -
+	$(VENV_PY) scripts/lint_migrations.py
+	kubectl kustomize deploy/k8s/overlays/local | $(VENV_PY) scripts/check_db_budget.py -
 
 tf-check: ## terraform fmt/validate + tflint + checkov for staging and prod
 	infra/terraform/check.sh
@@ -121,4 +137,4 @@ chaos-db: ## add 3 s latency to every Postgres packet (toxiproxy)
 chaos-db-off: ## remove the latency
 	scripts/chaos-db.sh off
 
-.PHONY: help prereqs up down ci-runner deploy release images rollback status test lint tf-check tf-plan-localstack grafana grafana-password prometheus alertmanager alerts-log alert-demo admission-demo chaos-db chaos-db-off
+.PHONY: help prereqs venv up down ci-runner deploy release images rollback status test lint tf-check tf-plan-localstack grafana grafana-password prometheus alertmanager alerts-log alert-demo admission-demo chaos-db chaos-db-off
