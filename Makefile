@@ -63,7 +63,8 @@ release: ## same release steps without act (fallback): build, scan, deploy, veri
 	  && COSIGN_KEY_B64="$$(base64 < $(CURDIR)/local/.secrets/cosign.key | tr -d '\n')" COSIGN_PASSWORD="$$(cat $(CURDIR)/local/.secrets/cosign.password)" \
 	       scripts/ci/sign.sh "$$(grep '^scan_ref=' .release/outputs | cut -d= -f2)" .release/sbom.cdx.json \
 	  && scripts/ci/deploy.sh "$$(grep '^image_ref=' .release/outputs | cut -d= -f2)" $(VERSION) \
-	  && { python3 scripts/ci/verify_release.py --version $(VERSION) \
+	  && { { python3 scripts/ci/verify_release.py --version $(VERSION) \
+	         && scripts/ci/mark_verified.sh "$$(grep '^image_ref=' .release/outputs | cut -d= -f2)" $(VERSION); } \
 	       || { scripts/ci/rollback.sh "$$(grep '^previous_image=' .release/outputs | cut -d= -f2)" "verification of $(VERSION) failed"; exit 1; }; }
 
 images: ## build settle-api:1.9.0 and :1.9.1-rc from their tags and save them to images/*.tar.gz

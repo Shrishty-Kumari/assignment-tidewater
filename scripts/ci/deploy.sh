@@ -22,12 +22,24 @@ if [[ "$now" > "$FREEZE_START" && "$now" < "$FREEZE_END" && "${FREEZE_OVERRIDE:-
 fi
 
 # 2. rollback target ----------------------------------------------------------
-PREV="$(kubectl -n "$NAMESPACE" get deploy settle-api -o jsonpath='{.spec.template.spec.containers[0].image}' 2>/dev/null || true)"
-PREV_VERSION="$(kubectl -n "$NAMESPACE" get deploy settle-api -o jsonpath='{.metadata.annotations.settle\.paylane\.io/version}' 2>/dev/null || true)"
+# The last release that passed post-deploy verification (recorded by
+# mark_verified.sh), not simply whatever is running: after an interrupted run
+# the running release may be the unverified one.
+RUNNING="$(kubectl -n "$NAMESPACE" get deploy settle-api -o jsonpath='{.spec.template.spec.containers[0].image}' 2>/dev/null || true)"
+RUNNING_VERSION="$(kubectl -n "$NAMESPACE" get deploy settle-api -o jsonpath='{.metadata.annotations.settle\.paylane\.io/version}' 2>/dev/null || true)"
+GOOD="$(kubectl -n "$NAMESPACE" get deploy settle-api -o jsonpath='{.metadata.annotations.settle\.paylane\.io/verified-image}' 2>/dev/null || true)"
+GOOD_VERSION="$(kubectl -n "$NAMESPACE" get deploy settle-api -o jsonpath='{.metadata.annotations.settle\.paylane\.io/verified-version}' 2>/dev/null || true)"
+log "currently running: ${RUNNING_VERSION:-nothing} ${RUNNING:+($RUNNING)}"
+if [ -n "$GOOD" ] && [ "$GOOD" != "$IMAGE_REF" ]; then
+  PREV="$GOOD"; PREV_VERSION="$GOOD_VERSION"
+  [ "$GOOD" = "$RUNNING" ] || warn "running release was never verified; rollback target is the last verified one"
+else
+  PREV="$RUNNING"; PREV_VERSION="$RUNNING_VERSION"
+fi
 output previous_image "$PREV"
 output previous_version "$PREV_VERSION"
-log "currently running: ${PREV_VERSION:-nothing} ${PREV:+($PREV)}"
-if [ "$PREV" = "$IMAGE_REF" ]; then
+log "rollback target: ${PREV_VERSION:-none} ${PREV:+($PREV)}"
+if [ "$RUNNING" = "$IMAGE_REF" ]; then
   warn "this digest is already deployed; re-applying manifests only"
 fi
 

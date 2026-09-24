@@ -164,6 +164,8 @@ jobs:
       - name: Post-deploy verification
         id: verify
         run: python3 scripts/ci/verify_release.py --version "${{ needs.build.outputs.version }}"
+      - name: Record the verified release (next rollback target)
+        run: scripts/ci/mark_verified.sh "${{ needs.build.outputs.image_ref }}" "${{ needs.build.outputs.version }}"
       - name: Automatic rollback
         if: (failure() || cancelled()) && steps.deploy.outputs.previous_image != ''
         run: |
