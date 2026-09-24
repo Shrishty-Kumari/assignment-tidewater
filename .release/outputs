@@ -1,0 +1,5 @@
+image_digest=sha256:289d47bbd20b8a2fd8695d5da1ccb4192f22a61ca1b5a9374a5763595afe480d
+image_ref=settle-registry:5000/settle-api@sha256:289d47bbd20b8a2fd8695d5da1ccb4192f22a61ca1b5a9374a5763595afe480d
+scan_ref=localhost:5001/settle-api@sha256:289d47bbd20b8a2fd8695d5da1ccb4192f22a61ca1b5a9374a5763595afe480d
+previous_image=settle-registry:5000/settle-api@sha256:277d8db946b38163c86423f24f14d4b7c092b162c9f3bee6ad62cce0215b1aee
+previous_version=1.9.0-test2
