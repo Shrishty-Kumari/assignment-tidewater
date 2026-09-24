@@ -24,7 +24,7 @@ Linux (tested on Ubuntu 24.04 / Debian 12, x86_64), at least 8 GB free RAM, and:
 
 ```
 # base packages, Python and Docker (log out and back in after usermod)
-sudo apt-get update && sudo apt-get install -y curl git make unzip gnupg lsb-release wget python3.12 python3.12-venv
+sudo apt-get update && sudo apt-get install -y curl git make unzip gnupg lsb-release wget openssl bc python3.12 python3.12-venv
 curl -fsSL https://get.docker.com | sh && sudo usermod -aG docker "$USER"
 
 # cluster tooling
@@ -52,72 +52,195 @@ python3.12 -m venv .venv && .venv/bin/pip install -r app/requirements-dev.txt
 
 On other distributions, install the same tools with your package manager.
 
-Ports used on your machine: **8088** (ingress), **5001** (local registry), **6550** (Kubernetes API).
+Ports used on your machine: **8088** (ingress), **5001** (local registry),
+**6550** (Kubernetes API), **5432** (throwaway Postgres for tests, step 2),
+**4566** (LocalStack, step 3).
 
-## Run it
+## Test it step by step
 
-```
-make up                          # cluster, ingress, Prometheus/Grafana, Kyverno, Postgres, Redis, bank mock
-make deploy VERSION=1.9.0        # release 1.9.0 through the pipeline
-make status                      # what is running (version + image digest)
-```
+Run the steps in order. Steps 1–3 need no cluster. Steps 4–10 run against the
+local k3d cluster created in step 4. `make help` lists every target.
 
-The first `make up` takes 5–10 minutes (image pulls). After that the API is at:
+### 1. Get the code
 
-```
-curl -H "Host: settle.localtest.me" http://localhost:8088/settlements?limit=5
-```
-
-Dashboards: `make grafana` (http://localhost:3000, user `admin`, password
-from `make grafana-password`), `make prometheus`, `make alertmanager`.
-
-Tear down: `make down`.
-
-## Test it
-
-### Code and configuration
+`make deploy` and `make images` build the releases from the git tags
+`v1.9.0` and `v1.9.1-rc`, so clone with tags:
 
 ```
-make test                        # unit tests (SQLite)
-PG_TEST_URL=postgresql://user:pass@localhost:5432/db make test   # + migration/N-1 tests on real Postgres (DB is wiped)
-make lint                        # ruff, migration safety lint, DB connection budget
-make tf-check                    # terraform fmt/validate, tflint, checkov
-make tf-plan-localstack          # terraform plan of staging + prod against LocalStack
+git clone https://github.com/Shrishty-Kumari/assignment-tidewater.git && cd assignment-tidewater
+git fetch --tags
+git tag                          # expected: v1.9.0  v1.9.1-rc
+python3.12 -m venv .venv && .venv/bin/pip install -r app/requirements-dev.txt
 ```
 
-### Delivery pipeline: good release, then automatic rollback
+### 2. Application, manifests and migrations (Tasks B, C)
 
 ```
-make deploy VERSION=1.9.0        # expected: all jobs green, verification table all PASS
-make deploy VERSION=1.9.1-rc     # expected: rollout "succeeds", verification FAILS, automatic rollback to 1.9.0
+make test                        # unit tests on SQLite; expected: all pass, Postgres tests skipped
+
+# migrations 0007 → 0011 and v1.7/v1.8 side-by-side (N-1) on a real Postgres 15
+docker run -d --name settle-pg-test -e POSTGRES_USER=settle -e POSTGRES_PASSWORD=test \
+  -e POSTGRES_DB=settle -p 5432:5432 postgres:15
+PG_TEST_URL=postgresql://settle:test@localhost:5432/settle make test   # expected: all pass (the test DB is wiped)
+docker rm -f settle-pg-test
+
+make lint                        # ruff, migration safety lint (rejects the v1.8.0 0008), DB connection budget at max HPA replicas
 ```
 
-`make deploy` runs `.github/workflows/deploy.yml` with act: lint/test → build
-once (immutable tag, digest) → trivy scan → cosign sign + SBOM attestation →
-migrations (before the rollout) → deploy by digest → post-deploy verification →
-rollback on failure.
+The migration redesign and release sequence are in [docs/MIGRATIONS.md](docs/MIGRATIONS.md).
+The DB connection budget formula is in [docs/CHANGES.md](docs/CHANGES.md).
 
-`1.9.1-rc` (branch `release/1.9.1-rc`) has a Postgres-only SQL bug: unit tests
-pass on SQLite, the pods start and pass their probes, but `GET
-/settlements/{id}` returns 500. The verification's per-version 5xx ratio
-catches it (≈ 40 % against a 1 % limit), and the pipeline rolls back.
+### 3. AWS infrastructure code (Task D)
 
-Without act, the same steps run with `make release VERSION=...`.
-
-### Alerts, admission policy, chaos
-
-| Command | Expected |
-|---|---|
-| `make alert-demo`, then `make alerts-log` | `SettleDuplicatePayout` fires within about 1 minute, with its runbook link. Reset: `scripts/alert-demo.sh clear` |
-| `make admission-demo` | signed release admitted; unsigned image and tag reference rejected by Kyverno |
-| `make chaos-db`, then `make chaos-db-off` | 3 s DB latency: 0 restarts, DB connections stay flat (~10/100), requests get a 503 in ~3 s or a 504 at 10 s, automatic recovery |
-
-### Pre-built images
+Nothing is applied and no AWS credentials are needed.
 
 ```
-make images                                       # builds settle-api 1.9.0 and 1.9.1-rc from their git tags
+make tf-check                    # terraform fmt -check, validate (staging, prod, bootstrap), tflint, checkov
+                                 # expected: "all checks passed"
+make tf-plan-localstack          # optional: terraform plan of staging and prod against LocalStack (starts it on :4566)
+docker rm -f settle-localstack   # stop LocalStack afterwards
+```
+
+Review log, suppressed findings and their justification:
+[docs/terraform-review.md](docs/terraform-review.md). Staging cost estimate
+(under USD 250/month): [infra/terraform/COSTS.md](infra/terraform/COSTS.md).
+
+### 4. Create the local environment
+
+```
+make up                          # k3d cluster, ingress-nginx, Prometheus/Grafana/Alertmanager, Kyverno,
+                                 # Postgres (schema 0007 + v1.7 data), Redis, bank mock, cosign key pair
+kubectl get nodes                # expected: 3 nodes Ready
+kubectl get pods -A              # expected: everything Running or Completed
+```
+
+The first `make up` takes 5–10 minutes (image pulls). All passwords are
+generated into Kubernetes Secrets and never printed.
+
+### 5. Deploy the good release 1.9.0 (Task C)
+
+```
+make deploy VERSION=1.9.0        # GitHub Actions workflow run locally with act
+make status                      # expected: settle-api and settle-worker at 1.9.0, image referenced by digest
+curl -H "Host: settle.localtest.me" "http://localhost:8088/settlements?limit=5"   # expected: HTTP 200, JSON list
+```
+
+Expected: every job is green and the verification table is all PASS. The
+pipeline runs: lint/test → build once (immutable tag, digest) → trivy image,
+secret and manifest scan → cosign signature + SBOM attestation → migrations
+(before the rollout) → deploy by digest → post-deploy verification → rollback
+on failure.
+
+Without act, the same steps run with `make release VERSION=1.9.0`.
+
+### 6. Deploy the bad release 1.9.1-rc and watch the automatic rollback (Task C)
+
+```
+make deploy VERSION=1.9.1-rc     # expected: rollout "succeeds", verification FAILS, automatic rollback
+make status                      # expected: back on 1.9.0 with the same digest as in step 5
+```
+
+`1.9.1-rc` has a Postgres-only SQL bug: unit tests pass on SQLite and the pods
+start and pass their probes, but `GET /settlements/{id}` returns 500. The
+verification's per-version 5xx ratio catches it (about 40 % against a 1 %
+limit), and the pipeline rolls back without manual action.
+
+Manual rollback, if ever needed: `make rollback` (see [docs/RUNBOOK.md](docs/RUNBOOK.md)).
+
+### 7. Runtime hardening (Task B)
+
+```
+# probes: liveness does not depend on Postgres, so a slow DB cannot cause a restart storm
+kubectl -n settle get deploy settle-api -o jsonpath='{.spec.template.spec.containers[0].livenessProbe}{"\n"}{.spec.template.spec.containers[0].readinessProbe}{"\n"}'
+
+# HPA limits, disruption budgets, default-deny network policies
+kubectl -n settle get hpa,pdb,networkpolicy
+
+# log rotation on every node, so an error loop cannot fill the disk (expected: 10Mi, 5)
+kubectl get --raw /api/v1/nodes/k3d-settle-agent-0/proxy/configz | grep -oE '"containerLogMax(Size|Files)":[^,]*'
+
+# graceful worker shutdown: follow an old worker pod's logs while the deployment restarts
+POD=$(kubectl -n settle get pods -l app.kubernetes.io/name=settle-worker -o name | head -1)
+kubectl -n settle logs -f "$POD" | grep -E "shutdown requested|settle-worker stopped" &
+kubectl -n settle rollout restart deploy/settle-worker
+kubectl -n settle rollout status deploy/settle-worker
+```
+
+Expected: the worker logs `shutdown requested, no longer fetching jobs`, then
+`settle-worker stopped` with `"clean": true`. Every change and its reason is
+in [docs/CHANGES.md](docs/CHANGES.md).
+
+### 8. Observability: dashboards, structured logs, one alert firing (Task E)
+
+Dashboards (each command blocks; run it in its own terminal):
+
+```
+make grafana-password            # Grafana admin password
+make grafana                     # http://localhost:3000, user admin, dashboard "settle overview"
+make prometheus                  # http://localhost:9090 → Alerts: 5 settle alerts
+make alertmanager                # http://localhost:9093
+```
+
+JSON logs correlated across API and worker by `request_id`:
+
+```
+ID=$(curl -s -H "Host: settle.localtest.me" -H "Content-Type: application/json" \
+  -d '{"merchant_id": 1, "settlement_date": "2026-09-24", "amount_minor": 1234}' \
+  http://localhost:8088/settlements | python3 -c 'import json,sys; print(json.load(sys.stdin)["id"])')
+curl -s -X POST -H "Host: settle.localtest.me" -H "X-Request-ID: readme-test-1" \
+  "http://localhost:8088/settlements/$ID/execute"                  # expected: {"payout_id": ..., "state": "queued"}
+kubectl -n settle logs deploy/settle-api    | grep readme-test-1   # API request line
+kubectl -n settle logs deploy/settle-worker | grep readme-test-1   # the same request_id on the payout lines
+```
+
+Fire an alert:
+
+```
+make alert-demo                  # the bank mock pays one reference twice
+make alerts-log                  # expected within ~1–2 min: SettleDuplicatePayout firing, with its runbook link
+scripts/alert-demo.sh clear      # reset; the alert resolves after the next reconciliation
+```
+
+Which alerts would have fired on 14 Aug, and how much earlier than the actual
+detection (replayed from the evidence bundle's metrics):
+
+```
+python3 tools/replay_alerts.py   # expected: SettleDatabaseSaturated, SettleRestartStorm and SettleDuplicatePayout at 14:04, 20 min before detection
+```
+
+SLO definitions and alert rationale: [docs/SLOs.md](docs/SLOs.md).
+
+### 9. Optional stretch (Task F)
+
+```
+make admission-demo              # expected: signed release ADMITTED; unsigned image and tag reference REJECTED by Kyverno
+make chaos-db                    # +3 s latency on every Postgres response; expected: 0 restarts, DB connections
+                                 # stay flat (~10/100), requests get a 503 in ~3 s or a 504 at 10 s
+make chaos-db-off                # expected: automatic recovery, HTTP 200 again
+kubectl -n settle get networkpolicy   # default-deny for the namespace plus explicit allows
+```
+
+### 10. Incident analysis and pre-built images (Task A)
+
+The RCA ([docs/RCA.md](docs/RCA.md)) cites files and lines in
+[incident-2026-08-14/](incident-2026-08-14/). The capacity arithmetic can be
+checked by hand against `incident-2026-08-14/metrics/`.
+
+```
+make images                      # builds settle-api 1.9.0 and 1.9.1-rc from their git tags into images/
 docker load < images/settle-api-1.9.0.tar.gz
 ```
+
+### Clean up
+
+```
+make down                        # delete the k3d cluster
+```
+
+### Screen-recording order
+
+`make up` → `make deploy VERSION=1.9.0` → `make deploy VERSION=1.9.1-rc`
+(automatic rollback) → `make alert-demo` + `make alerts-log`.
 
 ## Repository
 
