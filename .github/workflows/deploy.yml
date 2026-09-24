@@ -1,0 +1,175 @@
+name: deploy
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Release version (semver, e.g. 1.9.0 or 1.9.1-rc)"
+        required: true
+      git_sha:
+        description: "Commit being released (set by make deploy)"
+        required: false
+        default: ""
+      freeze_override:
+        description: "Deploy during the settlement freeze window (13:45-14:45 UTC). Needs a reason in the run title."
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+concurrency:
+  # one release at a time; never cancel a release half way
+  group: deploy-${{ github.event_name == 'workflow_dispatch' && 'release' || github.ref }}
+  cancel-in-progress: false
+
+env:
+  PYTHON_VERSION: "3.12"
+  KUBECTL_VERSION: v1.35.5
+  TRIVY_VERSION: 0.70.0
+  COSIGN_VERSION: 3.1.3
+
+jobs:
+  verify:
+    name: lint + test
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    services:
+      postgres:
+        image: postgres:15-alpine
+        env:
+          POSTGRES_USER: settle
+          POSTGRES_PASSWORD: ci-only-throwaway
+          POSTGRES_DB: settle
+        ports: ["15432:5432"]
+        options: >-
+          --health-cmd "pg_isready -U settle" --health-interval 5s --health-timeout 5s --health-retries 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+      - name: Install
+        run: pip install -r app/requirements-dev.txt
+      - name: Lint (ruff, incl. security rules)
+        run: cd app && ruff check .
+      - name: Unit tests
+        run: cd app && python -m pytest -q tests --ignore=tests/integration
+      - name: Migration safety lint
+        run: python scripts/lint_migrations.py
+      - name: Integration tests on Postgres 15 (migrations + N-1 compatibility)
+        env:
+          PG_TEST_URL: postgresql://settle:ci-only-throwaway@localhost:15432/settle
+        run: cd app && python -m pytest -q tests/integration
+      - name: Install kubectl
+        run: |
+          command -v kubectl >/dev/null && exit 0  # preinstalled on the local runner image
+          curl -fsSL --retry 5 --retry-all-errors --connect-timeout 10 --max-time 300 -o /usr/local/bin/kubectl "https://dl.k8s.io/release/${KUBECTL_VERSION}/bin/linux/$(dpkg --print-architecture)/kubectl"
+          chmod +x /usr/local/bin/kubectl
+      - name: Render manifests + DB connection budget
+        run: kubectl kustomize deploy/k8s/overlays/local | python scripts/check_db_budget.py -
+
+  build:
+    name: build image (once)
+    needs: verify
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    outputs:
+      version: ${{ steps.meta.outputs.version }}
+      image_digest: ${{ steps.build.outputs.image_digest }}
+      image_ref: ${{ steps.build.outputs.image_ref }}
+      scan_ref: ${{ steps.build.outputs.scan_ref }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Version
+        id: meta
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then v="${{ inputs.version }}"; else v="0.0.0-ci.${GITHUB_SHA::7}"; fi
+          echo "version=$v" >> "$GITHUB_OUTPUT"
+      - name: Build and publish (immutable tag, digest output)
+        id: build
+        env:
+          GIT_SHA: ${{ inputs.git_sha || github.sha }}
+        run: scripts/ci/build.sh "${{ steps.meta.outputs.version }}" "$GIT_SHA"
+
+  scan:
+    name: scan image + IaC
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install trivy
+        run: command -v trivy >/dev/null || curl -sfL --retry 5 --retry-all-errors --connect-timeout 10 --max-time 120 https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sh -s -- -b /usr/local/bin "v${TRIVY_VERSION}"
+      - name: Image vulnerabilities (fail on fixable HIGH/CRITICAL)
+        run: |
+          trivy image --image-src docker --scanners vuln --ignore-unfixed \
+            --severity HIGH,CRITICAL --exit-code 1 --ignorefile .trivyignore \
+            "${{ needs.build.outputs.scan_ref }}"
+      - name: Secrets in the image
+        run: trivy image --image-src docker --scanners secret --exit-code 1 "${{ needs.build.outputs.scan_ref }}"
+      - name: SBOM (CycloneDX, kept as a build artifact)
+        run: trivy image --image-src docker --format cyclonedx --output sbom.cdx.json "${{ needs.build.outputs.scan_ref }}"
+      - name: Kubernetes manifest misconfigurations
+        run: trivy config --exit-code 1 --severity HIGH,CRITICAL --ignorefile .trivyignore deploy/k8s
+      # Only reached when every scan above passed. The cluster admits nothing
+      # but signed settle-api digests (deploy/policy/verify-image-signature.yaml).
+      - name: Install cosign
+        if: github.event_name == 'workflow_dispatch'
+        timeout-minutes: 10
+        run: |
+          command -v cosign >/dev/null && exit 0  # preinstalled on the local runner image
+          curl -fsSL --retry 5 --retry-all-errors --connect-timeout 10 --max-time 300 -o /usr/local/bin/cosign "https://github.com/sigstore/cosign/releases/download/v${COSIGN_VERSION}/cosign-linux-$(dpkg --print-architecture)"
+          chmod +x /usr/local/bin/cosign
+      - name: Sign image + attest SBOM
+        if: github.event_name == 'workflow_dispatch'
+        env:
+          COSIGN_KEY_B64: ${{ secrets.COSIGN_KEY_B64 }}
+          COSIGN_PASSWORD: ${{ secrets.COSIGN_PASSWORD }}
+        run: scripts/ci/sign.sh "${{ needs.build.outputs.scan_ref }}" sbom.cdx.json
+
+  deploy:
+    name: deploy + verify (local k3d)
+    needs: [build, scan]
+    if: github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    environment: local
+    env:
+      NAMESPACE: settle
+      INGRESS_URL: ${{ vars.INGRESS_URL || 'http://host.docker.internal:8088' }}
+      FREEZE_OVERRIDE: ${{ inputs.freeze_override }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install kubectl + PyYAML
+        run: |
+          command -v kubectl >/dev/null && exit 0  # preinstalled on the local runner image
+          curl -fsSL --retry 5 --retry-all-errors --connect-timeout 10 --max-time 300 -o /usr/local/bin/kubectl "https://dl.k8s.io/release/${KUBECTL_VERSION}/bin/linux/$(dpkg --print-architecture)/kubectl"
+          chmod +x /usr/local/bin/kubectl
+          python3 -m pip install -q pyyaml==6.0.3
+      - name: Cluster credentials (never printed)
+        env:
+          KUBECONFIG_B64: ${{ secrets.KUBECONFIG_B64 }}
+        run: |
+          umask 077
+          mkdir -p "$HOME/.kube"
+          printf '%s' "$KUBECONFIG_B64" | base64 -d > "$HOME/.kube/config"
+          kubectl version --request-timeout=10s >/dev/null && echo "cluster reachable"
+      - name: Deploy ${{ needs.build.outputs.version }}
+        id: deploy
+        run: scripts/ci/deploy.sh "${{ needs.build.outputs.image_ref }}" "${{ needs.build.outputs.version }}"
+      - name: Post-deploy verification
+        id: verify
+        run: python3 scripts/ci/verify_release.py --version "${{ needs.build.outputs.version }}"
+      - name: Automatic rollback
+        if: failure() && steps.deploy.outputs.previous_image != ''
+        run: |
+          scripts/ci/rollback.sh "${{ steps.deploy.outputs.previous_image }}" \
+            "release ${{ needs.build.outputs.version }} failed ${{ steps.verify.outcome == 'failure' && 'post-deploy verification' || 'rollout' }}"
+          echo "### Rolled back to ${{ steps.deploy.outputs.previous_version }}" >> "$GITHUB_STEP_SUMMARY"
+      - name: Verify the rolled-back release is healthy
+        if: failure() && steps.deploy.outputs.previous_image != ''
+        run: VERIFY_DURATION=30 python3 scripts/ci/verify_release.py --version "${{ steps.deploy.outputs.previous_version }}"
