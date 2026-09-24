@@ -1,5 +1,6 @@
 # settle
 
+
 Daily merchant settlement service (settle-api + settle-worker, Postgres 15,
 Redis 7, nginx ingress), hardened after the 14 Aug v1.8.0 incident. Runs
 locally on k3d with the same pipeline, monitoring and policies as the AWS
