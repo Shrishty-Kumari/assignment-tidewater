@@ -51,8 +51,8 @@ echo "deb [signed-by=/usr/share/keyrings/hashicorp.gpg] https://apt.releases.has
 curl -s https://raw.githubusercontent.com/terraform-linters/tflint/master/install_linux.sh | bash
 sudo apt-get install -y pipx && pipx install checkov && pipx ensurepath
 
-# Python environment
-python3.12 -m venv .venv && .venv/bin/pip install -r app/requirements-dev.txt
+# Python environment (make test / make lint also create it on first use)
+make venv
 ```
 
 On other distributions, install the same tools with your package manager.
@@ -75,7 +75,7 @@ local k3d cluster created in step 4. `make help` lists every target.
 git clone https://github.com/Shrishty-Kumari/assignment-tidewater.git && cd assignment-tidewater
 git fetch --tags
 git tag                          # expected: v1.9.0  v1.9.1-rc
-python3.12 -m venv .venv && .venv/bin/pip install -r app/requirements-dev.txt
+make venv                        # Python 3.12 virtualenv with the dev requirements (rebuilt if broken)
 ```
 
 ### 2. Application, manifests and migrations (Tasks B, C)
