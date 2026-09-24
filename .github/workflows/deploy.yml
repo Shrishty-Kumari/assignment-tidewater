@@ -165,11 +165,11 @@ jobs:
         id: verify
         run: python3 scripts/ci/verify_release.py --version "${{ needs.build.outputs.version }}"
       - name: Automatic rollback
-        if: failure() && steps.deploy.outputs.previous_image != ''
+        if: (failure() || cancelled()) && steps.deploy.outputs.previous_image != ''
         run: |
           scripts/ci/rollback.sh "${{ steps.deploy.outputs.previous_image }}" \
-            "release ${{ needs.build.outputs.version }} failed ${{ steps.verify.outcome == 'failure' && 'post-deploy verification' || 'rollout' }}"
+            "release ${{ needs.build.outputs.version }} failed ${{ steps.verify.outcome == 'failure' && 'post-deploy verification' || steps.verify.outcome == 'cancelled' && 'verification (cancelled)' || 'rollout' }}"
           echo "### Rolled back to ${{ steps.deploy.outputs.previous_version }}" >> "$GITHUB_STEP_SUMMARY"
       - name: Verify the rolled-back release is healthy
-        if: failure() && steps.deploy.outputs.previous_image != ''
+        if: (failure() || cancelled()) && steps.deploy.outputs.previous_image != ''
         run: VERIFY_DURATION=30 python3 scripts/ci/verify_release.py --version "${{ steps.deploy.outputs.previous_version }}"

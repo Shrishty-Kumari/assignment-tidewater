@@ -9,6 +9,9 @@ PY         ?= $(shell [ -x .venv/bin/python ] && echo $(CURDIR)/.venv/bin/python
 export PYTHON = $(PY)
 WORKTREE    = /tmp/settle-release-$(VERSION)
 REF        ?= v$(VERSION)
+# deploy during the 13:45-14:45 UTC settlement freeze (docs/RUNBOOK.md#settlement-freeze-window)
+FREEZE_OVERRIDE ?= false
+export FREEZE_OVERRIDE
 
 define prepare_worktree
 	@git rev-parse -q --verify "$(REF)^{commit}" >/dev/null || { echo "unknown ref $(REF)"; exit 1; }
@@ -46,6 +49,7 @@ deploy: ci-runner ## release VERSION (git tag vVERSION) through the GitHub Actio
 	  -P ubuntu-latest=$(ACT_IMAGE) --pull=false --container-architecture $(ACT_ARCH) --container-daemon-socket /var/run/docker.sock \
 	  --container-options "-v $(HOME)/.cache/settle-trivy:/root/.cache/trivy --add-host=host.docker.internal:host-gateway" \
 	  --input version=$(VERSION) --input git_sha=$$(git rev-parse "$(REF)^{commit}") \
+	  --input freeze_override=$(FREEZE_OVERRIDE) \
 	  --secret-file .act-secrets \
 	  --env REGISTRY_PUSH=localhost:5001 --env REGISTRY_PULL=settle-registry:5000; \
 	  rc=$$?; rm -f .act-secrets; exit $$rc

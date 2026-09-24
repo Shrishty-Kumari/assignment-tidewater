@@ -138,6 +138,11 @@ on failure.
 
 Without act, the same steps run with `make release VERSION=1.9.0`.
 
+Deploys are blocked from 13:45 to 14:45 UTC (the daily settlement run, see
+[docs/RUNBOOK.md](docs/RUNBOOK.md#settlement-freeze-window)). To deploy inside
+that window anyway, add `FREEZE_OVERRIDE=true`, for example
+`make deploy VERSION=1.9.0 FREEZE_OVERRIDE=true`.
+
 ### 6. Deploy the bad release 1.9.1-rc and watch the automatic rollback (Task C)
 
 ```
