@@ -1,0 +1,20 @@
+# kubectl -n settle get pods -o wide   (14:12:30)
+NAME                             READY   STATUS             RESTARTS        AGE     IP           NODE
+settle-api-5b7f9c6d4-2mxkq       0/1     CrashLoopBackOff   9 (22s ago)  7m     10.42.1.14   node-1
+settle-api-5b7f9c6d4-8zv4t       0/1     Running            7 (34s ago)  9m     10.42.2.21   node-2
+settle-api-7c9d8f5b6-xk2lp       0/1     Running            7 (41s ago)  6m     10.42.2.31   node-2
+settle-api-7c9d8f5b6-b4n8s       0/1     CrashLoopBackOff   7 (17s ago)  10m     10.42.1.27   node-1
+settle-api-7c9d8f5b6-j7wq2       0/1     CrashLoopBackOff   12 (42s ago)  4m     10.42.2.32   node-2
+settle-api-7c9d8f5b6-r5tzm       0/1     Running            10 (17s ago)  8m     10.42.3.18   node-3
+settle-api-7c9d8f5b6-m2k9d       0/1     CrashLoopBackOff   14 (19s ago)  10m     10.42.2.35   node-2
+settle-api-7c9d8f5b6-p8x3v       0/1     CrashLoopBackOff   8 (37s ago)  8m     10.42.1.30   node-1
+settle-api-7c9d8f5b6-q6ht4       0/1     CrashLoopBackOff   10 (18s ago)  9m     10.42.2.36   node-2
+settle-api-7c9d8f5b6-z3fw8       0/1     CrashLoopBackOff   11 (19s ago)  6m     10.42.3.22   node-3
+settle-api-7c9d8f5b6-v9c2n       0/1     Running            8 (36s ago)  10m     10.42.2.38   node-2
+settle-api-7c9d8f5b6-h4r7k       0/1     CrashLoopBackOff   12 (32s ago)  7m     10.42.1.33   node-1
+settle-worker-84c6d7f9b-a1b2c    1/1     Running            0               9m      10.42.2.50     node-2
+settle-worker-84c6d7f9b-d3e4f    1/1     Running            0               9m      10.42.1.51     node-1
+settle-worker-84c6d7f9b-g5h6j    1/1     Running            0               8m      10.42.3.52     node-3
+settle-worker-84c6d7f9b-k7m8n    1/1     Running            0               8m      10.42.2.53     node-2
+postgres-0                       1/1     Running            0               11d     10.42.3.40   node-3
+redis-0                          1/1     Running            0               11d     10.42.2.12   node-2

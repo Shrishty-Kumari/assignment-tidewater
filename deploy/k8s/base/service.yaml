@@ -1,0 +1,32 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: settle-api
+  namespace: settle
+  labels:
+    app.kubernetes.io/name: settle-api
+spec:
+  type: ClusterIP
+  selector:
+    app.kubernetes.io/name: settle-api
+  ports:
+    - name: http
+      port: 80
+      targetPort: http
+---
+# headless service so Prometheus can discover worker pods for scraping
+apiVersion: v1
+kind: Service
+metadata:
+  name: settle-worker-metrics
+  namespace: settle
+  labels:
+    app.kubernetes.io/name: settle-worker
+spec:
+  clusterIP: None
+  selector:
+    app.kubernetes.io/name: settle-worker
+  ports:
+    - name: metrics
+      port: 9100
+      targetPort: metrics

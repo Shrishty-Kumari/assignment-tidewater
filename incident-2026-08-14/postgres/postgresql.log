@@ -1,0 +1,1014 @@
+# log_line_prefix='%m [%p] %q%u@%d '  log_lock_waits=on  log_min_duration_statement=1000  deadlock_timeout=1s  max_connections=100  superuser_reserved_connections=3
+2026-08-14 13:40:00.214 UTC [47102] backup@settle LOG:  connection authorized: user=backup database=settle application_name=pg_dump
+2026-08-14 13:51:48.902 UTC [47102] backup@settle LOG:  disconnection: session time: 0:11:48.688 user=backup database=settle host=10.42.3.40
+2026-08-14 14:00:12.000 UTC [112] @ LOG:  checkpoints are occurring too frequently (24 seconds apart)
+2026-08-14 14:00:12.000 UTC [112] @ HINT:  Consider increasing the configuration parameter "max_wal_size".
+2026-08-14 14:00:52.000 UTC [112] @ LOG:  checkpoints are occurring too frequently (24 seconds apart)
+2026-08-14 14:00:52.000 UTC [112] @ HINT:  Consider increasing the configuration parameter "max_wal_size".
+2026-08-14 14:01:58.077 UTC [48210] settle@settle LOG:  connection authorized: user=settle database=settle application_name=psql host=10.20.0.14 (ci-runner-2)
+2026-08-14 14:01:58.090 UTC [48210] settle@settle NOTICE:  relation "merchants" already exists, skipping
+2026-08-14 14:01:58.091 UTC [48210] settle@settle NOTICE:  relation "settlements" already exists, skipping
+2026-08-14 14:01:58.093 UTC [48210] settle@settle NOTICE:  relation "payouts" already exists, skipping
+2026-08-14 14:02:05.380 UTC [48211] settle@settle LOG:  connection authorized: user=settle database=settle application_name=psql host=10.20.0.14 (ci-runner-2)
+2026-08-14 14:02:05.412 UTC [48211] settle@settle LOG:  statement: BEGIN;
+2026-08-14 14:02:05.415 UTC [48211] settle@settle LOG:  statement: ALTER TABLE payouts RENAME COLUMN status TO state;
+2026-08-14 14:02:05.415 UTC [48211] settle@settle LOG:  statement: ALTER TABLE payouts ADD COLUMN bank_idempotency_key uuid NOT NULL DEFAULT gen_random_uuid();
+2026-08-14 14:02:06.909 UTC [48301] settle@settle LOG:  process 48301 still waiting for AccessShareLock on relation 16421 of database 16384 after 1000.54 ms
+2026-08-14 14:02:06.909 UTC [48301] settle@settle DETAIL:  Process holding the lock: 48211. Wait queue: 48301.
+2026-08-14 14:02:06.909 UTC [48301] settle@settle STATEMENT:  SELECT s.id, s.merchant_id, s.settlement_date, s.amount_minor, s.currency, s.status, p.status AS payout_status FROM settlements s LEFT JOIN payouts p ON p.settlement_id = s.id ...
+2026-08-14 14:02:07.424 UTC [48302] settle@settle LOG:  process 48302 still waiting for RowExclusiveLock on relation 16421 of database 16384 after 1000.65 ms
+2026-08-14 14:02:07.424 UTC [48302] settle@settle DETAIL:  Process holding the lock: 48211. Wait queue: 48302.
+2026-08-14 14:02:07.424 UTC [48302] settle@settle STATEMENT:  UPDATE payouts SET status = 'paid', bank_ref = $1 WHERE id = $2
+2026-08-14 14:02:07.932 UTC [48303] settle@settle LOG:  process 48303 still waiting for RowExclusiveLock on relation 16421 of database 16384 after 1000.59 ms
+2026-08-14 14:02:07.932 UTC [48303] settle@settle DETAIL:  Process holding the lock: 48211. Wait queue: 48303.
+2026-08-14 14:02:07.932 UTC [48303] settle@settle STATEMENT:  UPDATE payouts SET status = 'paid', bank_ref = $1 WHERE id = $2
+2026-08-14 14:02:08.291 UTC [48304] settle@settle LOG:  process 48304 still waiting for AccessShareLock on relation 16421 of database 16384 after 1000.68 ms
+2026-08-14 14:02:08.291 UTC [48304] settle@settle DETAIL:  Process holding the lock: 48211. Wait queue: 48304.
+2026-08-14 14:02:08.291 UTC [48304] settle@settle STATEMENT:  SELECT s.id, s.merchant_id, s.settlement_date, s.amount_minor, s.currency, s.status, p.status AS payout_status FROM settlements s LEFT JOIN payouts p ON p.settlement_id = s.id ...
+2026-08-14 14:02:08.684 UTC [48305] settle@settle LOG:  process 48305 still waiting for RowExclusiveLock on relation 16421 of database 16384 after 1000.96 ms
+2026-08-14 14:02:08.684 UTC [48305] settle@settle DETAIL:  Process holding the lock: 48211. Wait queue: 48305.
+2026-08-14 14:02:08.684 UTC [48305] settle@settle STATEMENT:  UPDATE payouts SET status = 'paid', bank_ref = $1 WHERE id = $2
+2026-08-14 14:02:09.306 UTC [48306] settle@settle LOG:  process 48306 still waiting for RowExclusiveLock on relation 16421 of database 16384 after 1000.50 ms
+2026-08-14 14:02:09.306 UTC [48306] settle@settle DETAIL:  Process holding the lock: 48211. Wait queue: 48306.
+2026-08-14 14:02:09.306 UTC [48306] settle@settle STATEMENT:  UPDATE payouts SET status = 'paid', bank_ref = $1 WHERE id = $2
+2026-08-14 14:02:09.693 UTC [48307] settle@settle LOG:  process 48307 still waiting for AccessShareLock on relation 16421 of database 16384 after 1000.49 ms
+2026-08-14 14:02:09.693 UTC [48307] settle@settle DETAIL:  Process holding the lock: 48211. Wait queue: 48307.
+2026-08-14 14:02:09.693 UTC [48307] settle@settle STATEMENT:  SELECT s.id, s.merchant_id, s.settlement_date, s.amount_minor, s.currency, s.status, p.status AS payout_status FROM settlements s LEFT JOIN payouts p ON p.settlement_id = s.id ...
+2026-08-14 14:02:10.073 UTC [48308] settle@settle LOG:  process 48308 still waiting for RowExclusiveLock on relation 16421 of database 16384 after 1000.14 ms
+2026-08-14 14:02:10.073 UTC [48308] settle@settle DETAIL:  Process holding the lock: 48211. Wait queue: 48308.
+2026-08-14 14:02:10.073 UTC [48308] settle@settle STATEMENT:  UPDATE payouts SET status = 'paid', bank_ref = $1 WHERE id = $2
+2026-08-14 14:02:10.596 UTC [48309] settle@settle LOG:  process 48309 still waiting for RowExclusiveLock on relation 16421 of database 16384 after 1000.93 ms
+2026-08-14 14:02:10.596 UTC [48309] settle@settle DETAIL:  Process holding the lock: 48211. Wait queue: 48309.
+2026-08-14 14:02:10.596 UTC [48309] settle@settle STATEMENT:  UPDATE payouts SET status = 'paid', bank_ref = $1 WHERE id = $2
+2026-08-14 14:02:11.053 UTC [48310] settle@settle LOG:  process 48310 still waiting for AccessShareLock on relation 16421 of database 16384 after 1000.32 ms
+2026-08-14 14:02:11.053 UTC [48310] settle@settle DETAIL:  Process holding the lock: 48211. Wait queue: 48310.
+2026-08-14 14:02:11.053 UTC [48310] settle@settle STATEMENT:  SELECT s.id, s.merchant_id, s.settlement_date, s.amount_minor, s.currency, s.status, p.status AS payout_status FROM settlements s LEFT JOIN payouts p ON p.settlement_id = s.id ...
+2026-08-14 14:02:11.711 UTC [48311] settle@settle LOG:  process 48311 still waiting for RowExclusiveLock on relation 16421 of database 16384 after 1000.93 ms
+2026-08-14 14:02:11.711 UTC [48311] settle@settle DETAIL:  Process holding the lock: 48211. Wait queue: 48311.
+2026-08-14 14:02:11.711 UTC [48311] settle@settle STATEMENT:  UPDATE payouts SET status = 'paid', bank_ref = $1 WHERE id = $2
+2026-08-14 14:02:12.081 UTC [48312] settle@settle LOG:  process 48312 still waiting for RowExclusiveLock on relation 16421 of database 16384 after 1000.63 ms
+2026-08-14 14:02:12.081 UTC [48312] settle@settle DETAIL:  Process holding the lock: 48211. Wait queue: 48312.
+2026-08-14 14:02:12.081 UTC [48312] settle@settle STATEMENT:  UPDATE payouts SET status = 'paid', bank_ref = $1 WHERE id = $2
+2026-08-14 14:02:12.545 UTC [48313] settle@settle LOG:  process 48313 still waiting for AccessShareLock on relation 16421 of database 16384 after 1000.61 ms
+2026-08-14 14:02:12.545 UTC [48313] settle@settle DETAIL:  Process holding the lock: 48211. Wait queue: 48313.
+2026-08-14 14:02:12.545 UTC [48313] settle@settle STATEMENT:  SELECT s.id, s.merchant_id, s.settlement_date, s.amount_minor, s.currency, s.status, p.status AS payout_status FROM settlements s LEFT JOIN payouts p ON p.settlement_id = s.id ...
+2026-08-14 14:02:13.182 UTC [48314] settle@settle LOG:  process 48314 still waiting for RowExclusiveLock on relation 16421 of database 16384 after 1000.34 ms
+2026-08-14 14:02:13.182 UTC [48314] settle@settle DETAIL:  Process holding the lock: 48211. Wait queue: 48314.
+2026-08-14 14:02:13.182 UTC [48314] settle@settle STATEMENT:  UPDATE payouts SET status = 'paid', bank_ref = $1 WHERE id = $2
+2026-08-14 14:02:13.640 UTC [48315] settle@settle LOG:  process 48315 still waiting for RowExclusiveLock on relation 16421 of database 16384 after 1000.89 ms
+2026-08-14 14:02:13.640 UTC [48315] settle@settle DETAIL:  Process holding the lock: 48211. Wait queue: 48315.
+2026-08-14 14:02:13.640 UTC [48315] settle@settle STATEMENT:  UPDATE payouts SET status = 'paid', bank_ref = $1 WHERE id = $2
+2026-08-14 14:02:14.007 UTC [48316] settle@settle LOG:  process 48316 still waiting for AccessShareLock on relation 16421 of database 16384 after 1000.82 ms
+2026-08-14 14:02:14.007 UTC [48316] settle@settle DETAIL:  Process holding the lock: 48211. Wait queue: 48316.
+2026-08-14 14:02:14.007 UTC [48316] settle@settle STATEMENT:  SELECT s.id, s.merchant_id, s.settlement_date, s.amount_minor, s.currency, s.status, p.status AS payout_status FROM settlements s LEFT JOIN payouts p ON p.settlement_id = s.id ...
+2026-08-14 14:02:14.421 UTC [48317] settle@settle LOG:  process 48317 still waiting for RowExclusiveLock on relation 16421 of database 16384 after 1000.43 ms
+2026-08-14 14:02:14.421 UTC [48317] settle@settle DETAIL:  Process holding the lock: 48211. Wait queue: 48317.
+2026-08-14 14:02:14.421 UTC [48317] settle@settle STATEMENT:  UPDATE payouts SET status = 'paid', bank_ref = $1 WHERE id = $2
+2026-08-14 14:02:14.972 UTC [48318] settle@settle LOG:  process 48318 still waiting for RowExclusiveLock on relation 16421 of database 16384 after 1000.63 ms
+2026-08-14 14:02:14.972 UTC [48318] settle@settle DETAIL:  Process holding the lock: 48211. Wait queue: 48318.
+2026-08-14 14:02:14.972 UTC [48318] settle@settle STATEMENT:  UPDATE payouts SET status = 'paid', bank_ref = $1 WHERE id = $2
+2026-08-14 14:02:15.542 UTC [48319] settle@settle LOG:  process 48319 still waiting for AccessShareLock on relation 16421 of database 16384 after 1000.48 ms
+2026-08-14 14:02:15.542 UTC [48319] settle@settle DETAIL:  Process holding the lock: 48211. Wait queue: 48319.
+2026-08-14 14:02:15.542 UTC [48319] settle@settle STATEMENT:  SELECT s.id, s.merchant_id, s.settlement_date, s.amount_minor, s.currency, s.status, p.status AS payout_status FROM settlements s LEFT JOIN payouts p ON p.settlement_id = s.id ...
+2026-08-14 14:02:16.096 UTC [48320] settle@settle LOG:  process 48320 still waiting for RowExclusiveLock on relation 16421 of database 16384 after 1000.22 ms
+2026-08-14 14:02:16.096 UTC [48320] settle@settle DETAIL:  Process holding the lock: 48211. Wait queue: 48320.
+2026-08-14 14:02:16.096 UTC [48320] settle@settle STATEMENT:  UPDATE payouts SET status = 'paid', bank_ref = $1 WHERE id = $2
+2026-08-14 14:02:16.358 UTC [48321] settle@settle LOG:  process 48321 still waiting for RowExclusiveLock on relation 16421 of database 16384 after 1000.11 ms
+2026-08-14 14:02:16.358 UTC [48321] settle@settle DETAIL:  Process holding the lock: 48211. Wait queue: 48321.
+2026-08-14 14:02:16.358 UTC [48321] settle@settle STATEMENT:  UPDATE payouts SET status = 'paid', bank_ref = $1 WHERE id = $2
+2026-08-14 14:02:17.078 UTC [48322] settle@settle LOG:  process 48322 still waiting for AccessShareLock on relation 16421 of database 16384 after 1000.81 ms
+2026-08-14 14:02:17.078 UTC [48322] settle@settle DETAIL:  Process holding the lock: 48211. Wait queue: 48322.
+2026-08-14 14:02:17.078 UTC [48322] settle@settle STATEMENT:  SELECT s.id, s.merchant_id, s.settlement_date, s.amount_minor, s.currency, s.status, p.status AS payout_status FROM settlements s LEFT JOIN payouts p ON p.settlement_id = s.id ...
+2026-08-14 14:02:17.371 UTC [48323] settle@settle LOG:  process 48323 still waiting for RowExclusiveLock on relation 16421 of database 16384 after 1000.69 ms
+2026-08-14 14:02:17.371 UTC [48323] settle@settle DETAIL:  Process holding the lock: 48211. Wait queue: 48323.
+2026-08-14 14:02:17.371 UTC [48323] settle@settle STATEMENT:  UPDATE payouts SET status = 'paid', bank_ref = $1 WHERE id = $2
+2026-08-14 14:02:17.853 UTC [48324] settle@settle LOG:  process 48324 still waiting for RowExclusiveLock on relation 16421 of database 16384 after 1000.82 ms
+2026-08-14 14:02:17.853 UTC [48324] settle@settle DETAIL:  Process holding the lock: 48211. Wait queue: 48324.
+2026-08-14 14:02:17.853 UTC [48324] settle@settle STATEMENT:  UPDATE payouts SET status = 'paid', bank_ref = $1 WHERE id = $2
+2026-08-14 14:02:18.321 UTC [48325] settle@settle LOG:  process 48325 still waiting for AccessShareLock on relation 16421 of database 16384 after 1000.52 ms
+2026-08-14 14:02:18.321 UTC [48325] settle@settle DETAIL:  Process holding the lock: 48211. Wait queue: 48325.
+2026-08-14 14:02:18.321 UTC [48325] settle@settle STATEMENT:  SELECT s.id, s.merchant_id, s.settlement_date, s.amount_minor, s.currency, s.status, p.status AS payout_status FROM settlements s LEFT JOIN payouts p ON p.settlement_id = s.id ...
+2026-08-14 14:02:18.998 UTC [48326] settle@settle LOG:  process 48326 still waiting for RowExclusiveLock on relation 16421 of database 16384 after 1000.50 ms
+2026-08-14 14:02:18.998 UTC [48326] settle@settle DETAIL:  Process holding the lock: 48211. Wait queue: 48326.
+2026-08-14 14:02:18.998 UTC [48326] settle@settle STATEMENT:  UPDATE payouts SET status = 'paid', bank_ref = $1 WHERE id = $2
+2026-08-14 14:02:19.195 UTC [48327] settle@settle LOG:  process 48327 still waiting for RowExclusiveLock on relation 16421 of database 16384 after 1000.22 ms
+2026-08-14 14:02:19.195 UTC [48327] settle@settle DETAIL:  Process holding the lock: 48211. Wait queue: 48327.
+2026-08-14 14:02:19.195 UTC [48327] settle@settle STATEMENT:  UPDATE payouts SET status = 'paid', bank_ref = $1 WHERE id = $2
+2026-08-14 14:02:19.664 UTC [48328] settle@settle LOG:  process 48328 still waiting for AccessShareLock on relation 16421 of database 16384 after 1000.33 ms
+2026-08-14 14:02:19.664 UTC [48328] settle@settle DETAIL:  Process holding the lock: 48211. Wait queue: 48328.
+2026-08-14 14:02:19.664 UTC [48328] settle@settle STATEMENT:  SELECT s.id, s.merchant_id, s.settlement_date, s.amount_minor, s.currency, s.status, p.status AS payout_status FROM settlements s LEFT JOIN payouts p ON p.settlement_id = s.id ...
+2026-08-14 14:02:20.333 UTC [48329] settle@settle LOG:  process 48329 still waiting for RowExclusiveLock on relation 16421 of database 16384 after 1000.71 ms
+2026-08-14 14:02:20.333 UTC [48329] settle@settle DETAIL:  Process holding the lock: 48211. Wait queue: 48329.
+2026-08-14 14:02:20.333 UTC [48329] settle@settle STATEMENT:  UPDATE payouts SET status = 'paid', bank_ref = $1 WHERE id = $2
+2026-08-14 14:02:20.744 UTC [48330] settle@settle LOG:  process 48330 still waiting for RowExclusiveLock on relation 16421 of database 16384 after 1000.64 ms
+2026-08-14 14:02:20.744 UTC [48330] settle@settle DETAIL:  Process holding the lock: 48211. Wait queue: 48330.
+2026-08-14 14:02:20.744 UTC [48330] settle@settle STATEMENT:  UPDATE payouts SET status = 'paid', bank_ref = $1 WHERE id = $2
+2026-08-14 14:02:21.362 UTC [48331] settle@settle LOG:  process 48331 still waiting for AccessShareLock on relation 16421 of database 16384 after 1000.76 ms
+2026-08-14 14:02:21.362 UTC [48331] settle@settle DETAIL:  Process holding the lock: 48211. Wait queue: 48331.
+2026-08-14 14:02:21.362 UTC [48331] settle@settle STATEMENT:  SELECT s.id, s.merchant_id, s.settlement_date, s.amount_minor, s.currency, s.status, p.status AS payout_status FROM settlements s LEFT JOIN payouts p ON p.settlement_id = s.id ...
+2026-08-14 14:02:21.638 UTC [48332] settle@settle LOG:  process 48332 still waiting for RowExclusiveLock on relation 16421 of database 16384 after 1000.73 ms
+2026-08-14 14:02:21.638 UTC [48332] settle@settle DETAIL:  Process holding the lock: 48211. Wait queue: 48332.
+2026-08-14 14:02:21.638 UTC [48332] settle@settle STATEMENT:  SELECT s.id, s.merchant_id, s.settlement_date, s.amount_minor, s.currency, s.status, p.status AS payout_status FROM settlements s LEFT JOIN payouts p ON p.settlement_id = s.id ...
+2026-08-14 14:02:22.234 UTC [48333] settle@settle LOG:  process 48333 still waiting for RowExclusiveLock on relation 16421 of database 16384 after 1000.82 ms
+2026-08-14 14:02:22.234 UTC [48333] settle@settle DETAIL:  Process holding the lock: 48211. Wait queue: 48333.
+2026-08-14 14:02:22.234 UTC [48333] settle@settle STATEMENT:  SELECT s.id, s.merchant_id, s.settlement_date, s.amount_minor, s.currency, s.status, p.status AS payout_status FROM settlements s LEFT JOIN payouts p ON p.settlement_id = s.id ...
+2026-08-14 14:02:22.589 UTC [48334] settle@settle LOG:  process 48334 still waiting for AccessShareLock on relation 16421 of database 16384 after 1000.34 ms
+2026-08-14 14:02:22.589 UTC [48334] settle@settle DETAIL:  Process holding the lock: 48211. Wait queue: 48334.
+2026-08-14 14:02:22.589 UTC [48334] settle@settle STATEMENT:  SELECT s.id, s.merchant_id, s.settlement_date, s.amount_minor, s.currency, s.status, p.status AS payout_status FROM settlements s LEFT JOIN payouts p ON p.settlement_id = s.id ...
+2026-08-14 14:02:23.104 UTC [48335] settle@settle LOG:  process 48335 still waiting for RowExclusiveLock on relation 16421 of database 16384 after 1000.74 ms
+2026-08-14 14:02:23.104 UTC [48335] settle@settle DETAIL:  Process holding the lock: 48211. Wait queue: 48335.
+2026-08-14 14:02:23.104 UTC [48335] settle@settle STATEMENT:  SELECT s.id, s.merchant_id, s.settlement_date, s.amount_minor, s.currency, s.status, p.status AS payout_status FROM settlements s LEFT JOIN payouts p ON p.settlement_id = s.id ...
+2026-08-14 14:02:23.593 UTC [48336] settle@settle LOG:  process 48336 still waiting for RowExclusiveLock on relation 16421 of database 16384 after 1000.80 ms
+2026-08-14 14:02:23.593 UTC [48336] settle@settle DETAIL:  Process holding the lock: 48211. Wait queue: 48336.
+2026-08-14 14:02:23.593 UTC [48336] settle@settle STATEMENT:  SELECT s.id, s.merchant_id, s.settlement_date, s.amount_minor, s.currency, s.status, p.status AS payout_status FROM settlements s LEFT JOIN payouts p ON p.settlement_id = s.id ...
+2026-08-14 14:02:23.998 UTC [48337] settle@settle LOG:  process 48337 still waiting for AccessShareLock on relation 16421 of database 16384 after 1000.42 ms
+2026-08-14 14:02:23.998 UTC [48337] settle@settle DETAIL:  Process holding the lock: 48211. Wait queue: 48337.
+2026-08-14 14:02:23.998 UTC [48337] settle@settle STATEMENT:  SELECT s.id, s.merchant_id, s.settlement_date, s.amount_minor, s.currency, s.status, p.status AS payout_status FROM settlements s LEFT JOIN payouts p ON p.settlement_id = s.id ...
+2026-08-14 14:02:24.604 UTC [48338] settle@settle LOG:  process 48338 still waiting for RowExclusiveLock on relation 16421 of database 16384 after 1000.28 ms
+2026-08-14 14:02:24.604 UTC [48338] settle@settle DETAIL:  Process holding the lock: 48211. Wait queue: 48338.
+2026-08-14 14:02:24.604 UTC [48338] settle@settle STATEMENT:  SELECT s.id, s.merchant_id, s.settlement_date, s.amount_minor, s.currency, s.status, p.status AS payout_status FROM settlements s LEFT JOIN payouts p ON p.settlement_id = s.id ...
+2026-08-14 14:02:25.002 UTC [48339] settle@settle LOG:  process 48339 still waiting for RowExclusiveLock on relation 16421 of database 16384 after 1000.48 ms
+2026-08-14 14:02:25.002 UTC [48339] settle@settle DETAIL:  Process holding the lock: 48211. Wait queue: 48339.
+2026-08-14 14:02:25.002 UTC [48339] settle@settle STATEMENT:  SELECT s.id, s.merchant_id, s.settlement_date, s.amount_minor, s.currency, s.status, p.status AS payout_status FROM settlements s LEFT JOIN payouts p ON p.settlement_id = s.id ...
+2026-08-14 14:02:25.668 UTC [48340] settle@settle LOG:  process 48340 still waiting for AccessShareLock on relation 16421 of database 16384 after 1000.73 ms
+2026-08-14 14:02:25.668 UTC [48340] settle@settle DETAIL:  Process holding the lock: 48211. Wait queue: 48340.
+2026-08-14 14:02:25.668 UTC [48340] settle@settle STATEMENT:  SELECT s.id, s.merchant_id, s.settlement_date, s.amount_minor, s.currency, s.status, p.status AS payout_status FROM settlements s LEFT JOIN payouts p ON p.settlement_id = s.id ...
+2026-08-14 14:03:02.118 UTC [48341] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:03:04.245 UTC [48342] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:03:06.786 UTC [48343] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:03:08.426 UTC [48344] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:03:08.863 UTC [48345] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:03:10.760 UTC [48346] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:03:11.791 UTC [48347] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:03:13.858 UTC [48348] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:03:16.387 UTC [48349] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:03:17.071 UTC [48350] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:03:18.002 UTC [48351] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:03:19.136 UTC [48352] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:03:21.886 UTC [48353] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:03:22.720 UTC [48354] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:03:25.425 UTC [48355] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:03:26.819 UTC [48356] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:03:28.871 UTC [48357] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:03:29.369 UTC [48358] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:03:31.160 UTC [48359] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:03:33.457 UTC [48360] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:03:35.694 UTC [48361] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:03:37.242 UTC [48362] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:03:38.000 UTC [112] @ LOG:  checkpoints are occurring too frequently (9 seconds apart)
+2026-08-14 14:03:38.000 UTC [112] @ HINT:  Consider increasing the configuration parameter "max_wal_size".
+2026-08-14 14:03:38.573 UTC [48363] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:03:40.764 UTC [48364] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:03:42.484 UTC [48365] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:03:45.135 UTC [48366] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:03:46.775 UTC [48367] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:03:49.732 UTC [48368] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:03:51.147 UTC [48369] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:03:52.361 UTC [48370] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:03:53.134 UTC [48371] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:03:56.129 UTC [48372] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:03:56.615 UTC [48373] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:03:57.912 UTC [48374] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:03:59.619 UTC [48375] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:04:01.134 UTC [48376] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:04:02.219 UTC [48377] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:04:04.196 UTC [48378] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:04:06.781 UTC [48379] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:04:07.300 UTC [48380] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:04:07.642 UTC [48381] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:04:09.000 UTC [112] @ LOG:  checkpoints are occurring too frequently (18 seconds apart)
+2026-08-14 14:04:09.000 UTC [112] @ HINT:  Consider increasing the configuration parameter "max_wal_size".
+2026-08-14 14:04:09.953 UTC [48382] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:04:11.501 UTC [48383] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:04:12.885 UTC [48384] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:04:15.859 UTC [48385] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:04:17.962 UTC [48386] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:04:18.640 UTC [48387] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:04:19.668 UTC [48388] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:04:22.363 UTC [48389] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:04:23.055 UTC [48390] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:04:25.689 UTC [48391] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:04:27.072 UTC [48392] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:04:27.401 UTC [48393] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:04:28.529 UTC [48394] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:04:30.702 UTC [48395] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:04:32.021 UTC [48396] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:04:32.379 UTC [48397] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:04:33.524 UTC [48398] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:04:33.909 UTC [48399] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:04:36.079 UTC [48400] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:04:37.394 UTC [48401] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:04:39.542 UTC [48402] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:04:40.862 UTC [48403] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:04:42.465 UTC [48404] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:04:44.333 UTC [48405] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:04:46.645 UTC [48406] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:04:48.695 UTC [48407] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:04:51.088 UTC [48408] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:04:52.963 UTC [48409] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:04:55.018 UTC [48410] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:04:57.581 UTC [48411] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:04:58.525 UTC [48412] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:05:00.841 UTC [48413] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:05:01.288 UTC [48414] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:05:03.221 UTC [48415] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:05:05.802 UTC [48416] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:05:07.821 UTC [48417] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:05:09.158 UTC [48418] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:05:10.618 UTC [48419] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:05:11.096 UTC [48420] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:05:12.022 UTC [48421] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:05:14.762 UTC [48422] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:05:17.042 UTC [48423] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:05:17.538 UTC [48424] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:05:19.858 UTC [48425] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:05:20.321 UTC [48426] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:05:22.131 UTC [48427] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:05:22.561 UTC [48428] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:05:24.228 UTC [48429] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:05:27.178 UTC [48430] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:05:28.447 UTC [48431] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:05:31.359 UTC [48432] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:05:33.439 UTC [48433] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:05:35.304 UTC [48434] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:05:37.777 UTC [48435] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:05:40.115 UTC [48436] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:05:40.905 UTC [48437] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:05:42.724 UTC [48438] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:05:44.363 UTC [48439] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:05:46.279 UTC [48440] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:05:47.166 UTC [48441] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:05:49.383 UTC [48442] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:05:50.000 UTC [112] @ LOG:  checkpoints are occurring too frequently (9 seconds apart)
+2026-08-14 14:05:50.000 UTC [112] @ HINT:  Consider increasing the configuration parameter "max_wal_size".
+2026-08-14 14:05:52.188 UTC [48443] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:05:54.430 UTC [48444] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:05:55.915 UTC [48445] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:05:58.060 UTC [48446] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:05:58.446 UTC [48447] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:06:00.913 UTC [48448] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:06:03.484 UTC [48449] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:06:03.948 UTC [48450] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:06:05.641 UTC [48451] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:06:06.436 UTC [48452] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:06:08.391 UTC [48453] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:06:10.964 UTC [48454] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:06:13.137 UTC [48455] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:06:13.952 UTC [48456] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:06:16.048 UTC [48457] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:06:16.692 UTC [48458] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:06:19.202 UTC [48459] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:06:19.718 UTC [48460] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:06:21.955 UTC [48461] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:06:22.000 UTC [112] @ LOG:  checkpoints are occurring too frequently (17 seconds apart)
+2026-08-14 14:06:22.000 UTC [112] @ HINT:  Consider increasing the configuration parameter "max_wal_size".
+2026-08-14 14:06:22.405 UTC [48462] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:06:23.920 UTC [48463] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:06:26.257 UTC [48464] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:06:27.325 UTC [48465] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:06:29.799 UTC [48466] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:06:31.492 UTC [48467] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:06:33.705 UTC [48468] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:06:36.573 UTC [48469] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:06:38.417 UTC [48470] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:06:39.295 UTC [48471] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:06:40.637 UTC [48472] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:06:41.208 UTC [48473] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:06:42.194 UTC [48474] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:06:45.081 UTC [48475] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:06:45.779 UTC [48476] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:06:46.645 UTC [48477] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:06:49.223 UTC [48478] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:06:52.213 UTC [48479] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:06:53.462 UTC [48480] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:06:56.408 UTC [48481] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:06:59.244 UTC [48482] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:06:59.995 UTC [48483] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:07:02.682 UTC [48484] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:07:05.223 UTC [48485] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:07:06.882 UTC [48486] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:07:08.569 UTC [48487] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:07:10.460 UTC [48488] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:07:12.471 UTC [48489] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:07:14.732 UTC [48490] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:07:16.229 UTC [48491] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:07:16.830 UTC [48492] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:07:17.692 UTC [48493] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:07:20.022 UTC [48494] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:07:21.939 UTC [48495] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:07:22.939 UTC [48496] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:07:24.920 UTC [48497] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:07:27.331 UTC [48498] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:07:28.976 UTC [48499] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:07:30.404 UTC [48500] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:07:31.174 UTC [48501] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:07:33.638 UTC [48502] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:07:35.075 UTC [48503] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:07:37.239 UTC [48504] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:07:40.019 UTC [48505] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:07:40.922 UTC [48506] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:07:42.207 UTC [48507] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:07:43.155 UTC [48508] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:07:43.813 UTC [48509] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:07:46.628 UTC [48510] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:07:48.339 UTC [48511] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:07:48.875 UTC [48512] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:07:49.000 UTC [112] @ LOG:  checkpoints are occurring too frequently (16 seconds apart)
+2026-08-14 14:07:49.000 UTC [112] @ HINT:  Consider increasing the configuration parameter "max_wal_size".
+2026-08-14 14:07:51.644 UTC [48513] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:07:52.185 UTC [48514] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:07:54.638 UTC [48515] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:07:56.875 UTC [48516] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:07:58.316 UTC [48517] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:07:58.768 UTC [48518] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:07:59.911 UTC [48519] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:08:02.075 UTC [48520] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:08:04.607 UTC [48521] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:08:07.407 UTC [48522] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:08:08.151 UTC [48523] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:08:10.442 UTC [48524] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:08:10.826 UTC [48525] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:08:11.936 UTC [48526] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:08:13.705 UTC [48527] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:08:14.492 UTC [48528] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:08:14.868 UTC [48529] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:08:17.456 UTC [48530] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:08:18.000 UTC [112] @ LOG:  checkpoints are occurring too frequently (10 seconds apart)
+2026-08-14 14:08:18.000 UTC [112] @ HINT:  Consider increasing the configuration parameter "max_wal_size".
+2026-08-14 14:08:20.221 UTC [48531] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:08:22.938 UTC [48532] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:08:25.682 UTC [48533] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:08:28.453 UTC [48534] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:08:30.391 UTC [48535] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:08:31.004 UTC [48536] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:08:31.771 UTC [48537] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:08:33.042 UTC [48538] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:08:34.293 UTC [48539] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:08:35.688 UTC [48540] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:08:38.522 UTC [48541] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:08:40.805 UTC [48542] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:08:43.542 UTC [48543] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:08:46.401 UTC [48544] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:08:48.746 UTC [48545] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:08:49.599 UTC [48546] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:08:51.455 UTC [48547] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:08:53.234 UTC [48548] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:08:56.067 UTC [48549] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:08:58.605 UTC [48550] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:08:59.010 UTC [48551] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:09:01.626 UTC [48552] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:09:03.921 UTC [48553] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:09:04.617 UTC [48554] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:09:06.592 UTC [48555] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:09:07.846 UTC [48556] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:09:08.213 UTC [48557] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:09:09.632 UTC [48558] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:09:12.331 UTC [48559] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:09:14.050 UTC [48560] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:09:14.364 UTC [48561] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:09:15.344 UTC [48562] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:09:15.790 UTC [48563] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:09:17.279 UTC [48564] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:09:19.815 UTC [48565] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:09:20.447 UTC [48566] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:09:22.738 UTC [48567] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:09:23.639 UTC [48568] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:09:25.726 UTC [48569] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:09:26.812 UTC [48211] settle@settle LOG:  duration: 441397.412 ms  statement: ALTER TABLE payouts ADD COLUMN bank_idempotency_key uuid NOT NULL DEFAULT gen_random_uuid();
+2026-08-14 14:09:26.812 UTC [48211] settle@settle LOG:  statement: CREATE INDEX idx_payouts_state ON payouts (state);
+2026-08-14 14:09:26.906 UTC [48570] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:09:28.079 UTC [48571] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:09:30.690 UTC [48572] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:09:32.717 UTC [48573] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:09:34.383 UTC [48574] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:09:36.838 UTC [48575] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:09:39.690 UTC [48576] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:09:41.000 UTC [112] @ LOG:  checkpoints are occurring too frequently (17 seconds apart)
+2026-08-14 14:09:41.000 UTC [112] @ HINT:  Consider increasing the configuration parameter "max_wal_size".
+2026-08-14 14:09:41.784 UTC [48577] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:09:42.295 UTC [48578] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:09:44.226 UTC [48579] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:09:46.821 UTC [48580] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:09:47.901 UTC [48581] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:09:48.104 UTC [48211] settle@settle LOG:  duration: 21291.866 ms  statement: CREATE INDEX idx_payouts_state ON payouts (state);
+2026-08-14 14:09:48.104 UTC [48211] settle@settle LOG:  statement: INSERT INTO schema_migrations (version) VALUES ('0008');
+2026-08-14 14:09:48.161 UTC [48211] settle@settle LOG:  statement: COMMIT;
+2026-08-14 14:09:48.161 UTC [48211] settle@settle LOG:  duration: 462749.201 ms  (transaction total, relation payouts: 38,612,904 rows rewritten, 11 GB)
+2026-08-14 14:09:48.166 UTC [48302] settle@settle ERROR:  column "status" of relation "payouts" does not exist at character 21
+2026-08-14 14:09:48.166 UTC [48302] settle@settle STATEMENT:  UPDATE payouts SET status = 'paid', bank_ref = $1 WHERE id = $2
+2026-08-14 14:09:48.167 UTC [48302] settle@settle LOG:  could not send data to client: Broken pipe
+2026-08-14 14:09:48.173 UTC [48303] settle@settle ERROR:  column "status" of relation "payouts" does not exist at character 21
+2026-08-14 14:09:48.173 UTC [48303] settle@settle STATEMENT:  UPDATE payouts SET status = 'paid', bank_ref = $1 WHERE id = $2
+2026-08-14 14:09:48.174 UTC [48303] settle@settle LOG:  could not send data to client: Broken pipe
+2026-08-14 14:09:48.180 UTC [48304] settle@settle ERROR:  column "status" of relation "payouts" does not exist at character 21
+2026-08-14 14:09:48.180 UTC [48304] settle@settle STATEMENT:  UPDATE payouts SET status = 'paid', bank_ref = $1 WHERE id = $2
+2026-08-14 14:09:48.181 UTC [48304] settle@settle LOG:  could not send data to client: Broken pipe
+2026-08-14 14:09:48.187 UTC [48305] settle@settle ERROR:  column "status" of relation "payouts" does not exist at character 21
+2026-08-14 14:09:48.187 UTC [48305] settle@settle STATEMENT:  UPDATE payouts SET status = 'paid', bank_ref = $1 WHERE id = $2
+2026-08-14 14:09:48.188 UTC [48305] settle@settle LOG:  could not send data to client: Broken pipe
+2026-08-14 14:09:48.194 UTC [48306] settle@settle ERROR:  column "status" of relation "payouts" does not exist at character 21
+2026-08-14 14:09:48.194 UTC [48306] settle@settle STATEMENT:  UPDATE payouts SET status = 'paid', bank_ref = $1 WHERE id = $2
+2026-08-14 14:09:48.195 UTC [48306] settle@settle LOG:  could not send data to client: Broken pipe
+2026-08-14 14:09:48.201 UTC [48307] settle@settle ERROR:  column "status" of relation "payouts" does not exist at character 21
+2026-08-14 14:09:48.201 UTC [48307] settle@settle STATEMENT:  UPDATE payouts SET status = 'paid', bank_ref = $1 WHERE id = $2
+2026-08-14 14:09:48.202 UTC [48307] settle@settle LOG:  could not send data to client: Broken pipe
+2026-08-14 14:09:48.208 UTC [48308] settle@settle ERROR:  column "status" of relation "payouts" does not exist at character 21
+2026-08-14 14:09:48.208 UTC [48308] settle@settle STATEMENT:  UPDATE payouts SET status = 'paid', bank_ref = $1 WHERE id = $2
+2026-08-14 14:09:48.209 UTC [48308] settle@settle LOG:  could not send data to client: Broken pipe
+2026-08-14 14:09:48.215 UTC [48309] settle@settle ERROR:  column "status" of relation "payouts" does not exist at character 21
+2026-08-14 14:09:48.215 UTC [48309] settle@settle STATEMENT:  UPDATE payouts SET status = 'paid', bank_ref = $1 WHERE id = $2
+2026-08-14 14:09:48.216 UTC [48309] settle@settle LOG:  could not send data to client: Broken pipe
+2026-08-14 14:09:48.222 UTC [48310] settle@settle ERROR:  column "status" of relation "payouts" does not exist at character 21
+2026-08-14 14:09:48.222 UTC [48310] settle@settle STATEMENT:  UPDATE payouts SET status = 'paid', bank_ref = $1 WHERE id = $2
+2026-08-14 14:09:48.223 UTC [48310] settle@settle LOG:  could not send data to client: Broken pipe
+2026-08-14 14:09:48.229 UTC [48311] settle@settle ERROR:  column "status" of relation "payouts" does not exist at character 21
+2026-08-14 14:09:48.229 UTC [48311] settle@settle STATEMENT:  UPDATE payouts SET status = 'paid', bank_ref = $1 WHERE id = $2
+2026-08-14 14:09:48.230 UTC [48311] settle@settle LOG:  could not send data to client: Broken pipe
+2026-08-14 14:09:48.236 UTC [48312] settle@settle ERROR:  column "status" of relation "payouts" does not exist at character 21
+2026-08-14 14:09:48.236 UTC [48312] settle@settle STATEMENT:  UPDATE payouts SET status = 'paid', bank_ref = $1 WHERE id = $2
+2026-08-14 14:09:48.237 UTC [48312] settle@settle LOG:  could not send data to client: Broken pipe
+2026-08-14 14:09:48.243 UTC [48313] settle@settle ERROR:  column "status" of relation "payouts" does not exist at character 21
+2026-08-14 14:09:48.243 UTC [48313] settle@settle STATEMENT:  UPDATE payouts SET status = 'paid', bank_ref = $1 WHERE id = $2
+2026-08-14 14:09:48.244 UTC [48313] settle@settle LOG:  could not send data to client: Broken pipe
+2026-08-14 14:09:48.250 UTC [48314] settle@settle ERROR:  column "status" of relation "payouts" does not exist at character 21
+2026-08-14 14:09:48.250 UTC [48314] settle@settle STATEMENT:  UPDATE payouts SET status = 'paid', bank_ref = $1 WHERE id = $2
+2026-08-14 14:09:48.251 UTC [48314] settle@settle LOG:  could not send data to client: Broken pipe
+2026-08-14 14:09:48.257 UTC [48315] settle@settle ERROR:  column "status" of relation "payouts" does not exist at character 21
+2026-08-14 14:09:48.257 UTC [48315] settle@settle STATEMENT:  UPDATE payouts SET status = 'paid', bank_ref = $1 WHERE id = $2
+2026-08-14 14:09:48.258 UTC [48315] settle@settle LOG:  could not send data to client: Broken pipe
+2026-08-14 14:09:48.264 UTC [48316] settle@settle ERROR:  column "status" of relation "payouts" does not exist at character 21
+2026-08-14 14:09:48.264 UTC [48316] settle@settle STATEMENT:  UPDATE payouts SET status = 'paid', bank_ref = $1 WHERE id = $2
+2026-08-14 14:09:48.265 UTC [48316] settle@settle LOG:  could not send data to client: Broken pipe
+2026-08-14 14:09:48.271 UTC [48317] settle@settle ERROR:  column "status" of relation "payouts" does not exist at character 21
+2026-08-14 14:09:48.271 UTC [48317] settle@settle STATEMENT:  UPDATE payouts SET status = 'paid', bank_ref = $1 WHERE id = $2
+2026-08-14 14:09:48.272 UTC [48317] settle@settle LOG:  could not send data to client: Broken pipe
+2026-08-14 14:09:48.278 UTC [48318] settle@settle ERROR:  column "status" of relation "payouts" does not exist at character 21
+2026-08-14 14:09:48.278 UTC [48318] settle@settle STATEMENT:  UPDATE payouts SET status = 'paid', bank_ref = $1 WHERE id = $2
+2026-08-14 14:09:48.279 UTC [48318] settle@settle LOG:  could not send data to client: Broken pipe
+2026-08-14 14:09:48.285 UTC [48319] settle@settle ERROR:  column "status" of relation "payouts" does not exist at character 21
+2026-08-14 14:09:48.285 UTC [48319] settle@settle STATEMENT:  UPDATE payouts SET status = 'paid', bank_ref = $1 WHERE id = $2
+2026-08-14 14:09:48.286 UTC [48319] settle@settle LOG:  could not send data to client: Broken pipe
+2026-08-14 14:09:48.292 UTC [48320] settle@settle ERROR:  column "status" of relation "payouts" does not exist at character 21
+2026-08-14 14:09:48.292 UTC [48320] settle@settle STATEMENT:  UPDATE payouts SET status = 'paid', bank_ref = $1 WHERE id = $2
+2026-08-14 14:09:48.293 UTC [48320] settle@settle LOG:  could not send data to client: Broken pipe
+2026-08-14 14:09:48.299 UTC [48321] settle@settle ERROR:  column "status" of relation "payouts" does not exist at character 21
+2026-08-14 14:09:48.299 UTC [48321] settle@settle STATEMENT:  UPDATE payouts SET status = 'paid', bank_ref = $1 WHERE id = $2
+2026-08-14 14:09:48.300 UTC [48321] settle@settle LOG:  could not send data to client: Broken pipe
+2026-08-14 14:09:48.306 UTC [48322] settle@settle ERROR:  column "status" of relation "payouts" does not exist at character 21
+2026-08-14 14:09:48.306 UTC [48322] settle@settle STATEMENT:  UPDATE payouts SET status = 'paid', bank_ref = $1 WHERE id = $2
+2026-08-14 14:09:48.307 UTC [48322] settle@settle LOG:  could not send data to client: Broken pipe
+2026-08-14 14:09:48.313 UTC [48323] settle@settle ERROR:  column "status" of relation "payouts" does not exist at character 21
+2026-08-14 14:09:48.313 UTC [48323] settle@settle STATEMENT:  UPDATE payouts SET status = 'paid', bank_ref = $1 WHERE id = $2
+2026-08-14 14:09:48.314 UTC [48323] settle@settle LOG:  could not send data to client: Broken pipe
+2026-08-14 14:09:48.320 UTC [48324] settle@settle ERROR:  column "status" of relation "payouts" does not exist at character 21
+2026-08-14 14:09:48.320 UTC [48324] settle@settle STATEMENT:  UPDATE payouts SET status = 'paid', bank_ref = $1 WHERE id = $2
+2026-08-14 14:09:48.321 UTC [48324] settle@settle LOG:  could not send data to client: Broken pipe
+2026-08-14 14:09:48.327 UTC [48325] settle@settle ERROR:  column "status" of relation "payouts" does not exist at character 21
+2026-08-14 14:09:48.327 UTC [48325] settle@settle STATEMENT:  UPDATE payouts SET status = 'paid', bank_ref = $1 WHERE id = $2
+2026-08-14 14:09:48.328 UTC [48325] settle@settle LOG:  could not send data to client: Broken pipe
+2026-08-14 14:09:48.334 UTC [48326] settle@settle ERROR:  column "status" of relation "payouts" does not exist at character 21
+2026-08-14 14:09:48.334 UTC [48326] settle@settle STATEMENT:  UPDATE payouts SET status = 'paid', bank_ref = $1 WHERE id = $2
+2026-08-14 14:09:48.335 UTC [48326] settle@settle LOG:  could not send data to client: Broken pipe
+2026-08-14 14:09:48.341 UTC [48327] settle@settle ERROR:  column "status" of relation "payouts" does not exist at character 21
+2026-08-14 14:09:48.341 UTC [48327] settle@settle STATEMENT:  UPDATE payouts SET status = 'paid', bank_ref = $1 WHERE id = $2
+2026-08-14 14:09:48.342 UTC [48327] settle@settle LOG:  could not send data to client: Broken pipe
+2026-08-14 14:09:48.348 UTC [48328] settle@settle ERROR:  column "status" of relation "payouts" does not exist at character 21
+2026-08-14 14:09:48.348 UTC [48328] settle@settle STATEMENT:  UPDATE payouts SET status = 'paid', bank_ref = $1 WHERE id = $2
+2026-08-14 14:09:48.349 UTC [48328] settle@settle LOG:  could not send data to client: Broken pipe
+2026-08-14 14:09:48.355 UTC [48329] settle@settle ERROR:  column "status" of relation "payouts" does not exist at character 21
+2026-08-14 14:09:48.355 UTC [48329] settle@settle STATEMENT:  UPDATE payouts SET status = 'paid', bank_ref = $1 WHERE id = $2
+2026-08-14 14:09:48.356 UTC [48329] settle@settle LOG:  could not send data to client: Broken pipe
+2026-08-14 14:09:48.362 UTC [48330] settle@settle ERROR:  column "status" of relation "payouts" does not exist at character 21
+2026-08-14 14:09:48.362 UTC [48330] settle@settle STATEMENT:  UPDATE payouts SET status = 'paid', bank_ref = $1 WHERE id = $2
+2026-08-14 14:09:48.363 UTC [48330] settle@settle LOG:  could not send data to client: Broken pipe
+2026-08-14 14:09:48.369 UTC [48331] settle@settle ERROR:  column "status" of relation "payouts" does not exist at character 21
+2026-08-14 14:09:48.369 UTC [48331] settle@settle STATEMENT:  UPDATE payouts SET status = 'paid', bank_ref = $1 WHERE id = $2
+2026-08-14 14:09:48.370 UTC [48331] settle@settle LOG:  could not send data to client: Broken pipe
+2026-08-14 14:09:48.376 UTC [48332] settle@settle ERROR:  column "status" of relation "payouts" does not exist at character 21
+2026-08-14 14:09:48.376 UTC [48332] settle@settle STATEMENT:  UPDATE payouts SET status = 'paid', bank_ref = $1 WHERE id = $2
+2026-08-14 14:09:48.377 UTC [48332] settle@settle LOG:  could not send data to client: Broken pipe
+2026-08-14 14:09:48.383 UTC [48333] settle@settle ERROR:  column "status" of relation "payouts" does not exist at character 21
+2026-08-14 14:09:48.383 UTC [48333] settle@settle STATEMENT:  UPDATE payouts SET status = 'paid', bank_ref = $1 WHERE id = $2
+2026-08-14 14:09:48.384 UTC [48333] settle@settle LOG:  could not send data to client: Broken pipe
+2026-08-14 14:09:48.390 UTC [48334] settle@settle ERROR:  column "status" of relation "payouts" does not exist at character 21
+2026-08-14 14:09:48.390 UTC [48334] settle@settle STATEMENT:  UPDATE payouts SET status = 'paid', bank_ref = $1 WHERE id = $2
+2026-08-14 14:09:48.391 UTC [48334] settle@settle LOG:  could not send data to client: Broken pipe
+2026-08-14 14:09:48.397 UTC [48335] settle@settle ERROR:  column "status" of relation "payouts" does not exist at character 21
+2026-08-14 14:09:48.397 UTC [48335] settle@settle STATEMENT:  UPDATE payouts SET status = 'paid', bank_ref = $1 WHERE id = $2
+2026-08-14 14:09:48.398 UTC [48335] settle@settle LOG:  could not send data to client: Broken pipe
+2026-08-14 14:09:48.404 UTC [48336] settle@settle ERROR:  column "status" of relation "payouts" does not exist at character 21
+2026-08-14 14:09:48.404 UTC [48336] settle@settle STATEMENT:  UPDATE payouts SET status = 'paid', bank_ref = $1 WHERE id = $2
+2026-08-14 14:09:48.405 UTC [48336] settle@settle LOG:  could not send data to client: Broken pipe
+2026-08-14 14:09:48.411 UTC [48337] settle@settle ERROR:  column "status" of relation "payouts" does not exist at character 21
+2026-08-14 14:09:48.411 UTC [48337] settle@settle STATEMENT:  UPDATE payouts SET status = 'paid', bank_ref = $1 WHERE id = $2
+2026-08-14 14:09:48.412 UTC [48337] settle@settle LOG:  could not send data to client: Broken pipe
+2026-08-14 14:09:48.418 UTC [48338] settle@settle ERROR:  column "status" of relation "payouts" does not exist at character 21
+2026-08-14 14:09:48.418 UTC [48338] settle@settle STATEMENT:  UPDATE payouts SET status = 'paid', bank_ref = $1 WHERE id = $2
+2026-08-14 14:09:48.419 UTC [48338] settle@settle LOG:  could not send data to client: Broken pipe
+2026-08-14 14:09:48.425 UTC [48339] settle@settle ERROR:  column p.status does not exist at character 98
+2026-08-14 14:09:48.432 UTC [48340] settle@settle ERROR:  column p.status does not exist at character 98
+2026-08-14 14:09:48.439 UTC [48341] settle@settle ERROR:  column p.status does not exist at character 98
+2026-08-14 14:09:48.446 UTC [48342] settle@settle ERROR:  column p.status does not exist at character 98
+2026-08-14 14:09:48.453 UTC [48343] settle@settle ERROR:  column p.status does not exist at character 98
+2026-08-14 14:09:48.460 UTC [48344] settle@settle ERROR:  column p.status does not exist at character 98
+2026-08-14 14:09:48.467 UTC [48345] settle@settle ERROR:  column p.status does not exist at character 98
+2026-08-14 14:09:48.474 UTC [48346] settle@settle ERROR:  column p.status does not exist at character 98
+2026-08-14 14:09:49.549 UTC [48582] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:09:51.979 UTC [48583] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:09:55.753 UTC [48584] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:09:57.731 UTC [48585] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:10:06.020 UTC [48586] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:10:09.365 UTC [48587] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:10:17.055 UTC [48588] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:10:25.959 UTC [48589] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:10:30.165 UTC [48590] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:10:37.282 UTC [48591] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:10:44.667 UTC [48592] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:10:47.557 UTC [48593] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:10:51.700 UTC [48594] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:10:59.443 UTC [48595] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:11:06.935 UTC [48596] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:11:15.093 UTC [48597] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:11:18.738 UTC [48598] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:11:25.200 UTC [48599] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:11:28.065 UTC [48600] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:11:32.672 UTC [48601] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:11:40.974 UTC [48602] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:11:47.570 UTC [48603] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:11:48.836 UTC [48604] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:11:51.064 UTC [48605] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:11:55.041 UTC [48606] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:12:02.955 UTC [48607] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:12:11.691 UTC [48608] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:12:16.478 UTC [48609] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:12:22.895 UTC [48610] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:12:29.640 UTC [48611] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:12:34.276 UTC [48612] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:12:35.312 UTC [48613] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:12:36.506 UTC [48614] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:12:44.949 UTC [48615] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:12:48.009 UTC [48616] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:12:50.587 UTC [48617] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:12:58.172 UTC [48618] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:13:06.776 UTC [48619] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:13:13.655 UTC [48620] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:13:22.225 UTC [48621] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:13:29.533 UTC [48622] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:13:37.242 UTC [48623] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:13:39.285 UTC [48624] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:13:46.276 UTC [48625] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:13:49.115 UTC [48626] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:13:55.483 UTC [48627] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:13:57.272 UTC [48628] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:14:03.185 UTC [48629] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:14:05.304 UTC [48630] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:14:11.638 UTC [48631] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:14:13.595 UTC [48632] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:14:22.249 UTC [48633] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:14:25.681 UTC [48634] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:14:26.850 UTC [48635] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:14:27.882 UTC [48636] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:14:31.637 UTC [48637] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:14:37.426 UTC [48638] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:14:44.602 UTC [48639] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:14:49.905 UTC [48640] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:14:56.711 UTC [48641] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:15:02.000 UTC [112] @ LOG:  checkpoint complete: wrote 412331 buffers (78.6%); 0 WAL file(s) added, 12 removed, 204 recycled; write=29.812 s
+2026-08-14 14:15:02.983 UTC [48642] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:15:06.101 UTC [48643] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:15:10.876 UTC [48644] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:15:15.923 UTC [48645] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:15:24.506 UTC [48646] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:15:27.793 UTC [48647] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:15:33.491 UTC [48648] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:15:35.974 UTC [48649] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:15:42.219 UTC [48650] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:15:43.272 UTC [48651] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:15:47.440 UTC [48652] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:15:48.960 UTC [48653] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:15:57.883 UTC [48654] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:16:03.948 UTC [48655] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:16:07.498 UTC [48656] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:16:10.712 UTC [48657] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:16:12.346 UTC [48658] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:16:19.590 UTC [48659] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:16:24.752 UTC [48660] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:16:27.433 UTC [48661] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:16:31.815 UTC [48662] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:16:39.935 UTC [48663] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:16:45.887 UTC [48664] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:16:51.228 UTC [48665] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:16:55.873 UTC [48666] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:17:00.868 UTC [48667] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:17:08.277 UTC [48668] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:17:14.861 UTC [48669] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:17:20.423 UTC [48670] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:17:26.289 UTC [48671] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:17:32.241 UTC [48672] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:17:37.979 UTC [48673] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:17:40.131 UTC [48674] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:17:44.557 UTC [48675] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:17:46.483 UTC [48676] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:17:52.543 UTC [48677] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:17:57.001 UTC [48678] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:17:58.852 UTC [48679] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:18:04.127 UTC [48680] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:18:12.195 UTC [48681] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:18:15.737 UTC [48682] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:18:19.260 UTC [48683] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:18:27.932 UTC [48684] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:18:30.913 UTC [48685] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:18:34.075 UTC [48686] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:18:36.254 UTC [48687] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:18:43.882 UTC [48688] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:18:49.785 UTC [48689] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:18:53.248 UTC [48690] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:18:59.822 UTC [48691] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:19:04.845 UTC [48692] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:19:08.542 UTC [48693] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:19:14.632 UTC [48694] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:19:19.134 UTC [48695] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:19:26.318 UTC [48696] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:19:30.547 UTC [48697] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:19:38.140 UTC [48698] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:19:41.097 UTC [48699] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:19:44.963 UTC [48700] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:19:49.934 UTC [48701] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:19:54.793 UTC [48702] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:20:02.608 UTC [48703] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:20:11.323 UTC [48704] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:20:16.799 UTC [48705] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:20:25.430 UTC [48706] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:20:32.610 UTC [48707] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:20:34.434 UTC [48708] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:20:40.644 UTC [48709] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:20:43.576 UTC [48710] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:20:51.211 UTC [48711] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:20:53.176 UTC [48712] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:20:54.227 UTC [48713] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:20:58.324 UTC [48714] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:21:00.014 UTC [48715] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:21:07.054 UTC [48716] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:21:10.966 UTC [48717] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:21:17.930 UTC [48718] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:21:21.544 UTC [48719] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:21:30.391 UTC [48720] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:21:36.384 UTC [48721] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:21:43.471 UTC [48722] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:21:51.634 UTC [48723] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:21:57.390 UTC [48724] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:22:03.922 UTC [48725] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:22:07.812 UTC [48726] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:22:11.973 UTC [48727] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:22:19.153 UTC [48728] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:22:26.104 UTC [48729] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:22:29.226 UTC [48730] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:22:37.988 UTC [48731] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:22:40.203 UTC [48732] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:22:44.171 UTC [48733] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:22:45.780 UTC [48734] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:22:53.921 UTC [48735] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:22:57.361 UTC [48736] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:22:59.050 UTC [48737] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:23:08.036 UTC [48738] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:23:09.095 UTC [48739] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:23:14.026 UTC [48740] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:23:21.975 UTC [48741] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:23:25.206 UTC [48742] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:23:28.522 UTC [48743] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:23:37.177 UTC [48744] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:23:41.920 UTC [48745] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:23:48.467 UTC [48746] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:23:53.731 UTC [48747] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:24:00.819 UTC [48748] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:24:06.010 UTC [48749] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:24:11.528 UTC [48750] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:24:19.878 UTC [48751] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:24:25.213 UTC [48752] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:24:29.923 UTC [48753] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:24:34.961 UTC [48754] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:24:42.796 UTC [48755] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:24:50.757 UTC [48756] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:24:58.890 UTC [48757] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:25:06.611 UTC [48758] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:25:14.499 UTC [48759] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:25:21.209 UTC [48760] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:25:24.295 UTC [48761] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:25:28.860 UTC [48762] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:25:36.114 UTC [48763] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:25:44.598 UTC [48764] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:25:50.564 UTC [48765] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:25:52.112 UTC [48766] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:25:57.786 UTC [48767] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:26:00.028 UTC [48768] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:26:05.984 UTC [48769] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:26:12.298 UTC [48770] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:26:20.872 UTC [48771] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:26:28.683 UTC [48772] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:26:36.285 UTC [48773] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:26:38.664 UTC [48774] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:26:40.393 UTC [48775] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:26:45.471 UTC [48776] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:26:53.468 UTC [48777] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:26:55.271 UTC [48778] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:26:57.408 UTC [48779] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:26:59.548 UTC [48780] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:27:02.875 UTC [48781] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:27:09.125 UTC [48782] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:27:11.382 UTC [48783] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:27:13.839 UTC [48784] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:27:21.812 UTC [48785] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:27:23.743 UTC [48786] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:27:32.490 UTC [48787] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:27:34.631 UTC [48788] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:27:36.194 UTC [48789] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:27:40.290 UTC [48790] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:27:43.561 UTC [48791] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:27:48.893 UTC [48792] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:27:54.857 UTC [48793] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:27:56.467 UTC [48794] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:27:58.648 UTC [48795] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:28:01.584 UTC [48796] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:28:02.849 UTC [48797] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:28:06.767 UTC [48798] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:28:14.865 UTC [48799] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:28:22.609 UTC [48800] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:28:24.420 UTC [48801] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:28:32.895 UTC [48802] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:28:38.164 UTC [48803] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:28:40.105 UTC [48804] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:28:45.721 UTC [48805] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:28:52.764 UTC [48806] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:28:57.431 UTC [48807] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:29:00.526 UTC [48808] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:29:01.928 UTC [48809] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:29:06.170 UTC [48810] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:29:14.682 UTC [48811] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:29:16.467 UTC [48812] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:29:18.452 UTC [48813] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:29:19.864 UTC [48814] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:29:26.068 UTC [48815] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:29:29.201 UTC [48816] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:29:30.936 UTC [48817] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:29:36.578 UTC [48818] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:29:44.641 UTC [48819] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:29:47.772 UTC [48820] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:29:49.694 UTC [48821] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:29:53.859 UTC [48822] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:29:55.519 UTC [48823] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:30:03.472 UTC [48824] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:30:07.752 UTC [48825] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:30:15.981 UTC [48826] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:30:24.723 UTC [48827] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:30:27.456 UTC [48828] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:30:35.723 UTC [48829] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:30:40.836 UTC [48830] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:30:44.715 UTC [48831] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:30:46.772 UTC [48832] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:30:48.147 UTC [48833] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:30:54.088 UTC [48834] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:31:00.563 UTC [48835] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:31:07.787 UTC [48836] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:31:15.397 UTC [48837] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:31:23.708 UTC [48838] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:31:32.626 UTC [48839] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:31:39.361 UTC [48840] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:31:48.051 UTC [48841] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:31:52.654 UTC [48842] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:31:57.239 UTC [48843] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:32:02.117 UTC [48844] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:32:03.757 UTC [48845] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:32:08.871 UTC [48846] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:32:11.387 UTC [48847] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:32:19.443 UTC [48848] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:32:27.496 UTC [48849] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:32:28.566 UTC [48850] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:32:34.891 UTC [48851] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:32:41.713 UTC [48852] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:32:46.448 UTC [48853] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:32:50.701 UTC [48854] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:32:56.167 UTC [48855] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:33:03.550 UTC [48856] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:33:06.791 UTC [48857] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:33:09.118 UTC [48858] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:33:13.250 UTC [48859] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:33:18.843 UTC [48860] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:33:26.554 UTC [48861] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:33:32.266 UTC [48862] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:33:36.776 UTC [48863] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:33:39.535 UTC [48864] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:33:47.397 UTC [48865] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:33:52.279 UTC [48866] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:33:57.186 UTC [48867] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:34:04.267 UTC [48868] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:34:05.959 UTC [48869] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:34:07.735 UTC [48870] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:34:15.134 UTC [48871] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:34:23.974 UTC [48872] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:34:29.203 UTC [48873] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:34:33.794 UTC [48874] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:34:41.362 UTC [48875] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:34:49.816 UTC [48876] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:34:57.021 UTC [48877] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:34:59.071 UTC [48878] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:35:06.095 UTC [48879] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:35:11.068 UTC [48880] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:35:18.548 UTC [48881] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:35:27.486 UTC [48882] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:35:35.398 UTC [48883] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:35:42.278 UTC [48884] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:35:50.367 UTC [48885] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:35:52.354 UTC [48886] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:35:54.085 UTC [48887] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:36:01.692 UTC [48888] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:36:09.263 UTC [48889] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:36:15.113 UTC [48890] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:36:24.083 UTC [48891] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:36:31.198 UTC [48892] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:36:38.244 UTC [48893] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:36:44.050 UTC [48894] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:36:47.584 UTC [48895] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:36:54.200 UTC [48896] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:36:55.761 UTC [48897] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:36:57.384 UTC [48898] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:37:01.637 UTC [48899] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:37:03.910 UTC [48900] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:37:06.516 UTC [48901] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:37:11.576 UTC [48902] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:37:18.943 UTC [48903] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:37:22.039 UTC [48904] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:37:31.008 UTC [48905] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:37:32.765 UTC [48906] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:37:41.287 UTC [48907] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:37:47.068 UTC [48908] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:37:52.825 UTC [48909] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:37:56.302 UTC [48910] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:37:57.968 UTC [48911] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:38:00.501 UTC [48912] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:38:02.933 UTC [48913] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:38:11.249 UTC [48914] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:38:18.006 UTC [48915] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:38:25.631 UTC [48916] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:38:34.466 UTC [48917] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:38:41.261 UTC [48918] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:38:46.503 UTC [48919] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:38:50.957 UTC [48920] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:38:56.546 UTC [48921] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:39:05.489 UTC [48922] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:39:06.727 UTC [48923] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:39:14.158 UTC [48924] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:39:22.637 UTC [48925] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:39:25.230 UTC [48926] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:39:29.400 UTC [48927] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:39:30.369 UTC [48928] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:39:37.172 UTC [48929] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:39:41.222 UTC [48930] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:39:47.507 UTC [48931] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:39:50.247 UTC [48932] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:39:55.447 UTC [48933] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:40:02.783 UTC [48934] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:40:09.675 UTC [48935] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:40:18.345 UTC [48936] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:40:22.474 UTC [48937] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:40:28.923 UTC [48938] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:40:32.314 UTC [48939] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:40:34.278 UTC [48940] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:40:37.622 UTC [48941] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:40:41.970 UTC [48942] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:40:43.781 UTC [48943] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:40:48.563 UTC [48944] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:40:51.118 UTC [48945] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:40:52.288 UTC [48946] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:40:57.971 UTC [48947] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:41:06.686 UTC [48948] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:41:15.231 UTC [48949] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:41:23.623 UTC [48950] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:41:25.525 UTC [48951] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:41:34.256 UTC [48952] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:41:35.279 UTC [48953] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:41:38.086 UTC [48954] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:41:45.343 UTC [48955] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:41:46.771 UTC [48956] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:41:53.761 UTC [48957] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:41:58.580 UTC [48958] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:42:04.222 UTC [48959] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:42:06.285 UTC [48960] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:42:10.184 UTC [48961] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:42:13.981 UTC [48962] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:42:22.059 UTC [48963] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:42:26.117 UTC [48964] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:42:32.665 UTC [48965] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:42:39.235 UTC [48966] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:42:45.790 UTC [48967] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:42:48.958 UTC [48968] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:42:53.453 UTC [48969] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:42:58.570 UTC [48970] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:42:59.827 UTC [48971] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:43:01.429 UTC [48972] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:43:07.480 UTC [48973] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:43:13.617 UTC [48974] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:43:17.708 UTC [48975] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:43:24.866 UTC [48976] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:43:33.594 UTC [48977] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:43:38.282 UTC [48978] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:43:40.775 UTC [48979] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:43:42.116 UTC [48980] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:43:43.412 UTC [48981] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:43:48.695 UTC [48982] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:43:54.464 UTC [48983] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:44:00.425 UTC [48984] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:44:01.657 UTC [48985] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:44:01.802 UTC [49911] settle@settle LOG:  connection authorized: user=settle database=settle application_name=psql host=10.20.7.61
+2026-08-14 14:44:02.000 UTC [49911] settle@settle LOG:  statement: BEGIN; DROP INDEX IF EXISTS idx_payouts_state; ALTER TABLE payouts DROP COLUMN bank_idempotency_key; ALTER TABLE payouts RENAME COLUMN state TO status; DELETE FROM schema_migrations WHERE version = '0008'; COMMIT;
+2026-08-14 14:44:03.911 UTC [49911] settle@settle LOG:  duration: 1840.227 ms  statement: BEGIN; DROP INDEX IF EXISTS idx_payouts_state; ...
+2026-08-14 14:44:04.000 UTC [50010] settle@settle ERROR:  column "state" of relation "payouts" does not exist at character 21
+2026-08-14 14:44:08.368 UTC [48986] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:44:09.000 UTC [50011] settle@settle ERROR:  column p.state does not exist at character 98
+2026-08-14 14:44:12.818 UTC [48987] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:44:13.800 UTC [48988] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:44:14.000 UTC [50012] settle@settle ERROR:  column "state" of relation "payouts" does not exist at character 21
+2026-08-14 14:44:19.000 UTC [50013] settle@settle ERROR:  column p.state does not exist at character 98
+2026-08-14 14:44:19.925 UTC [48989] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:44:24.000 UTC [50014] settle@settle ERROR:  column "state" of relation "payouts" does not exist at character 21
+2026-08-14 14:44:25.857 UTC [48990] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:44:27.626 UTC [48991] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:44:29.000 UTC [50015] settle@settle ERROR:  column p.state does not exist at character 98
+2026-08-14 14:44:31.416 UTC [48992] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:44:34.000 UTC [50016] settle@settle ERROR:  column "state" of relation "payouts" does not exist at character 21
+2026-08-14 14:44:36.335 UTC [48993] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:44:39.000 UTC [50017] settle@settle ERROR:  column p.state does not exist at character 98
+2026-08-14 14:44:40.406 UTC [48994] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:44:44.000 UTC [50018] settle@settle ERROR:  column "state" of relation "payouts" does not exist at character 21
+2026-08-14 14:44:46.485 UTC [48995] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:44:49.000 UTC [50019] settle@settle ERROR:  column p.state does not exist at character 98
+2026-08-14 14:44:52.856 UTC [48996] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:44:54.000 UTC [50020] settle@settle ERROR:  column "state" of relation "payouts" does not exist at character 21
+2026-08-14 14:44:58.612 UTC [48997] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:44:59.000 UTC [50021] settle@settle ERROR:  column p.state does not exist at character 98
+2026-08-14 14:45:04.000 UTC [50022] settle@settle ERROR:  column "state" of relation "payouts" does not exist at character 21
+2026-08-14 14:45:06.242 UTC [48998] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:45:08.179 UTC [48999] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:45:09.000 UTC [50023] settle@settle ERROR:  column p.state does not exist at character 98
+2026-08-14 14:45:14.000 UTC [50024] settle@settle ERROR:  column "state" of relation "payouts" does not exist at character 21
+2026-08-14 14:45:16.854 UTC [49000] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:45:18.637 UTC [49001] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:45:19.000 UTC [50025] settle@settle ERROR:  column p.state does not exist at character 98
+2026-08-14 14:45:21.651 UTC [49002] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:45:24.000 UTC [50026] settle@settle ERROR:  column "state" of relation "payouts" does not exist at character 21
+2026-08-14 14:45:26.482 UTC [49003] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:45:29.000 UTC [50027] settle@settle ERROR:  column p.state does not exist at character 98
+2026-08-14 14:45:31.183 UTC [49004] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:45:36.290 UTC [49005] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:45:37.914 UTC [49006] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:45:46.113 UTC [49007] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:45:49.672 UTC [49008] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:45:53.588 UTC [49009] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:45:59.990 UTC [49010] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:46:03.869 UTC [49011] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:46:10.033 UTC [49012] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:46:11.040 UTC [49013] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:46:12.834 UTC [49014] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:46:17.725 UTC [49015] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:46:24.574 UTC [49016] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:46:25.653 UTC [49017] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:46:32.399 UTC [49018] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:46:37.061 UTC [49019] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:46:44.942 UTC [49020] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:46:53.342 UTC [49021] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:46:55.193 UTC [49022] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:47:01.636 UTC [49023] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:47:04.787 UTC [49024] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections
+2026-08-14 14:47:11.471 UTC [49025] settle@settle FATAL:  sorry, too many clients already
+2026-08-14 14:47:15.000 UTC [49911] settle@settle LOG:  statement: SELECT pg_terminate_backend(pid) FROM pg_stat_activity WHERE usename = 'settle' AND state = 'idle' AND pid <> pg_backend_pid();
+2026-08-14 14:47:15.003 UTC [49000] settle@settle FATAL:  terminating connection due to administrator command
+2026-08-14 14:47:15.004 UTC [49003] settle@settle FATAL:  terminating connection due to administrator command
+2026-08-14 14:47:15.005 UTC [49006] settle@settle FATAL:  terminating connection due to administrator command
+2026-08-14 14:47:15.006 UTC [49009] settle@settle FATAL:  terminating connection due to administrator command
+2026-08-14 14:47:15.007 UTC [49012] settle@settle FATAL:  terminating connection due to administrator command
+2026-08-14 14:47:15.008 UTC [49015] settle@settle FATAL:  terminating connection due to administrator command
+2026-08-14 14:47:15.009 UTC [49018] settle@settle FATAL:  terminating connection due to administrator command
+2026-08-14 14:47:15.010 UTC [49021] settle@settle FATAL:  terminating connection due to administrator command
+2026-08-14 14:47:15.011 UTC [49024] settle@settle FATAL:  terminating connection due to administrator command
+2026-08-14 14:47:15.012 UTC [49027] settle@settle FATAL:  terminating connection due to administrator command
+2026-08-14 14:47:15.013 UTC [49030] settle@settle FATAL:  terminating connection due to administrator command
+2026-08-14 14:47:15.014 UTC [49033] settle@settle FATAL:  terminating connection due to administrator command
+2026-08-14 14:47:15.015 UTC [49036] settle@settle FATAL:  terminating connection due to administrator command
+2026-08-14 14:47:15.016 UTC [49039] settle@settle FATAL:  terminating connection due to administrator command
+2026-08-14 14:47:15.017 UTC [49042] settle@settle FATAL:  terminating connection due to administrator command
+2026-08-14 14:47:15.018 UTC [49045] settle@settle FATAL:  terminating connection due to administrator command
+2026-08-14 14:47:15.019 UTC [49048] settle@settle FATAL:  terminating connection due to administrator command
+2026-08-14 14:47:15.020 UTC [49051] settle@settle FATAL:  terminating connection due to administrator command
+2026-08-14 14:47:15.021 UTC [49054] settle@settle FATAL:  terminating connection due to administrator command
+2026-08-14 14:47:15.022 UTC [49057] settle@settle FATAL:  terminating connection due to administrator command
+2026-08-14 14:47:15.023 UTC [49060] settle@settle FATAL:  terminating connection due to administrator command
+2026-08-14 14:47:15.024 UTC [49063] settle@settle FATAL:  terminating connection due to administrator command
+2026-08-14 14:47:15.025 UTC [49066] settle@settle FATAL:  terminating connection due to administrator command
+2026-08-14 14:47:15.026 UTC [49069] settle@settle FATAL:  terminating connection due to administrator command
+2026-08-14 14:47:15.027 UTC [49072] settle@settle FATAL:  terminating connection due to administrator command
+2026-08-14 14:47:15.028 UTC [49075] settle@settle FATAL:  terminating connection due to administrator command
+2026-08-14 14:47:15.029 UTC [49078] settle@settle FATAL:  terminating connection due to administrator command
+2026-08-14 14:47:15.030 UTC [49081] settle@settle FATAL:  terminating connection due to administrator command
+2026-08-14 14:47:15.031 UTC [49084] settle@settle FATAL:  terminating connection due to administrator command
+2026-08-14 14:47:15.032 UTC [49087] settle@settle FATAL:  terminating connection due to administrator command
+2026-08-14 14:47:15.033 UTC [49090] settle@settle FATAL:  terminating connection due to administrator command
+2026-08-14 14:47:19.187 UTC [49026] settle@settle FATAL:  remaining connection slots are reserved for non-replication superuser connections

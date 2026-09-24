@@ -1,0 +1,21 @@
+# #settle-oncall channel export, 14 Aug 2026 (UTC). Names replaced by roles.
+14:02  release-eng     tagging v1.8.0, deploy pipeline running
+14:19  support-lead    we have 6 merchants reporting 502/504 on the settlements API since ~14:05, anything going on?
+14:24  support-lead    @settle-oncall now 19 tickets. dashboard also slow
+14:26  oncall-eng      ack, looking
+14:29  oncall-eng      api pods crashlooping, liveness failing. postgres "too many clients"
+14:33  oncall-eng      node-2 went DiskPressure, pods evicted. /var/log/settle is 10G+ ?!
+14:36  release-eng     1.8.0 has the new log volume, maybe related
+14:38  oncall-eng      rolling back api + worker (kubectl rollout undo)
+14:41  oncall-eng      undo did nothing, pods pulled the same digest - image is :latest
+14:41  release-eng     cancelling pipeline run #412. retagging 1.7.3 as latest
+14:43  release-eng     pushed 1.7.3 as latest
+14:44  oncall-eng      1.7.3 needs payouts.status back, running 0008 down migration by hand
+14:45  oncall-eng      rollout restart api + worker
+14:46  oncall-eng      pinned HPA max to 4, too many connections at 10 replicas
+14:47  oncall-eng      terminated idle backends in postgres
+14:51  oncall-eng      error rate back to normal. will write RCA tomorrow
+14:58  oncall-eng      deleted /var/log/settle/settle.log on node-2, disk pressure cleared
+-- 15 Aug --
+09:40  finance-ops     reconciliation: 37 payouts paid twice on 14 Aug run, EUR 435,989.66 overpaid. see email
+10:05  eng-manager     settle team moves to the new product today; handing settle to platform

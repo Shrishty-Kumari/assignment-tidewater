@@ -1,0 +1,11 @@
+# Allow-list: the build context is the repo root, so everything else
+# (evidence bundle, .git, terraform, local secrets, tests) stays out.
+*
+!app/requirements.txt
+!app/gunicorn.conf.py
+!app/settle
+!app/bankmock
+!migrations
+migrations/rejected
+**/__pycache__
+**/*.pyc

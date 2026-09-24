@@ -1,0 +1,124 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: settle-slo
+  namespace: monitoring
+  labels:
+    release: kube-prometheus-stack
+spec:
+  groups:
+    - name: settle-slo-recording
+      interval: 30s
+      rules:
+        - record: settle:slo_requests_bad:ratio_rate5m
+          expr: |
+            1 - (
+              sum(rate(nginx_ingress_controller_request_duration_seconds_bucket{ingress="settle-api",le="1",status!~"5.."}[5m]))
+              /
+              sum(rate(nginx_ingress_controller_request_duration_seconds_count{ingress="settle-api"}[5m]))
+            )
+        - record: settle:slo_requests_bad:ratio_rate30m
+          expr: |
+            1 - (
+              sum(rate(nginx_ingress_controller_request_duration_seconds_bucket{ingress="settle-api",le="1",status!~"5.."}[30m]))
+              /
+              sum(rate(nginx_ingress_controller_request_duration_seconds_count{ingress="settle-api"}[30m]))
+            )
+        - record: settle:slo_requests_bad:ratio_rate1h
+          expr: |
+            1 - (
+              sum(rate(nginx_ingress_controller_request_duration_seconds_bucket{ingress="settle-api",le="1",status!~"5.."}[1h]))
+              /
+              sum(rate(nginx_ingress_controller_request_duration_seconds_count{ingress="settle-api"}[1h]))
+            )
+        - record: settle:slo_requests_bad:ratio_rate6h
+          expr: |
+            1 - (
+              sum(rate(nginx_ingress_controller_request_duration_seconds_bucket{ingress="settle-api",le="1",status!~"5.."}[6h]))
+              /
+              sum(rate(nginx_ingress_controller_request_duration_seconds_count{ingress="settle-api"}[6h]))
+            )
+        - record: settle:payouts_within_15m:ratio_rate1d
+          expr: |
+            sum(rate(settle_payout_duration_seconds_bucket{le="900"}[1d]))
+            /
+            sum(rate(settle_payout_duration_seconds_count[1d]))
+        # used by the pipeline's post-deploy verification (per version)
+        - record: settle:http_5xx:ratio_rate1m_by_version
+          expr: |
+            sum by (version) (rate(settle_http_requests_total{status=~"5.."}[1m]))
+            /
+            sum by (version) (rate(settle_http_requests_total[1m]))
+
+    - name: settle-alerts
+      rules:
+        # 1 ---------------------------------------------------------------
+        - alert: SettleAPIErrorBudgetBurn
+          # multi-window burn rate (Google SRE workbook): 14.4x burns 2 % of
+          # the 28-day budget in 1 h; 6x burns 5 % in 6 h. The short window
+          # makes the alert resolve quickly once the problem is fixed.
+          expr: |
+            (settle:slo_requests_bad:ratio_rate1h > (14.4 * 0.005) and settle:slo_requests_bad:ratio_rate5m > (14.4 * 0.005))
+            or
+            (settle:slo_requests_bad:ratio_rate6h > (6 * 0.005) and settle:slo_requests_bad:ratio_rate30m > (6 * 0.005))
+          for: 2m
+          labels:
+            severity: page
+            slo: api-availability
+          annotations:
+            summary: "settle API is burning its error budget ({{ $value | humanizePercentage }} bad requests)"
+            description: "More than 7.2 % of requests via the ingress are 5xx or slower than 1 s."
+            runbook_url: https://github.com/sanojkumartw/tidewater-settle/blob/main/docs/RUNBOOK.md#settleapierrorbudgetburn
+            dashboard: http://grafana.localtest.me:8088/d/settle-overview
+
+        # 2 ---------------------------------------------------------------
+        - alert: SettleDuplicatePayout
+          # Zero tolerance: any payout reference the bank paid more than once.
+          # On 14 Aug finance found 37 of these the next morning.
+          expr: max(settle_reconciliation_duplicate_payouts) > 0
+          labels:
+            severity: page
+            slo: settlement-correctness
+          annotations:
+            summary: "{{ $value }} payout(s) paid more than once by the bank"
+            description: "Stop the worker, reconcile with the bank, start recovery with finance."
+            runbook_url: https://github.com/sanojkumartw/tidewater-settle/blob/main/docs/RUNBOOK.md#settleduplicatepayout
+
+        # 3 ---------------------------------------------------------------
+        - alert: SettlePayoutsDelayed
+          expr: |
+            max(settle_queue_oldest_job_age_seconds) > 600
+            or max(settle_payouts_stale) > 0
+            or max(settle_queue_depth{queue="dead"}) > 0
+          for: 5m
+          labels:
+            severity: page
+            slo: settlement-freshness
+          annotations:
+            summary: "Payouts are not reaching the bank in time"
+            description: "Oldest queued payout > 10 min, payouts stuck > 15 min, or dead-lettered payouts need a human."
+            runbook_url: https://github.com/sanojkumartw/tidewater-settle/blob/main/docs/RUNBOOK.md#settlepayoutsdelayed
+
+        # 4 ---------------------------------------------------------------
+        - alert: SettleDatabaseSaturated
+          # the 14 Aug outage was sustained by connection exhaustion
+          expr: |
+            sum(pg_stat_activity_count{datname="settle"}) / max(pg_settings_max_connections) > 0.85
+            or max(pg_up) == 0
+          for: 2m
+          labels:
+            severity: page
+          annotations:
+            summary: "Postgres connections at {{ $value | humanizePercentage }} of max_connections (or down)"
+            description: "Settle may start failing to get connections. Check pool usage per deployment and lock waits."
+            runbook_url: https://github.com/sanojkumartw/tidewater-settle/blob/main/docs/RUNBOOK.md#settledatabasesaturated
+
+        # 5 ---------------------------------------------------------------
+        - alert: SettleRestartStorm
+          expr: sum(increase(kube_pod_container_status_restarts_total{namespace="settle"}[10m])) > 3
+          labels:
+            severity: page
+          annotations:
+            summary: "{{ $value | printf \"%.0f\" }} container restarts in settle in 10 min"
+            description: "Pods are being restarted repeatedly; check probes, OOM kills and recent deploys."
+            runbook_url: https://github.com/sanojkumartw/tidewater-settle/blob/main/docs/RUNBOOK.md#settlerestartstorm

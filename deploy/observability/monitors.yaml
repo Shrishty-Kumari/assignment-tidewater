@@ -1,0 +1,92 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PodMonitor
+metadata:
+  name: settle-api
+  namespace: monitoring
+spec:
+  namespaceSelector:
+    matchNames: [settle]
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: settle-api
+  podMetricsEndpoints:
+    - port: http
+      path: /metrics
+      interval: 15s
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: settle-worker
+  namespace: monitoring
+spec:
+  namespaceSelector:
+    matchNames: [settle]
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: settle-worker
+  endpoints:
+    - port: metrics
+      interval: 15s
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: alert-sink
+  namespace: monitoring
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: alert-sink
+  template:
+    metadata:
+      labels:
+        app: alert-sink
+    spec:
+      automountServiceAccountToken: false
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 65534
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+        - name: sink
+          image: python:3.12-slim-bookworm@sha256:392307d22300de8b5986851a12d9176dfc0fc073e65bf6523ebd7dcbeb23564e
+          command: ["python", "-u", "-c"]
+          args:
+            - |
+              import json, http.server
+              class H(http.server.BaseHTTPRequestHandler):
+                  def do_POST(self):
+                      body = json.loads(self.rfile.read(int(self.headers["Content-Length"])))
+                      for a in body.get("alerts", []):
+                          print(json.dumps({"status": a["status"], "alert": a["labels"].get("alertname"),
+                                            "severity": a["labels"].get("severity"),
+                                            "summary": a["annotations"].get("summary"),
+                                            "runbook": a["annotations"].get("runbook_url"),
+                                            "startsAt": a["startsAt"]}))
+                      self.send_response(200); self.end_headers()
+                  def log_message(self, *a): pass
+              http.server.HTTPServer(("0.0.0.0", 8080), H).serve_forever()
+          ports:
+            - containerPort: 8080
+          resources:
+            requests: { cpu: 10m, memory: 32Mi }
+            limits: { memory: 64Mi }
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop: ["ALL"]
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: alert-sink
+  namespace: monitoring
+spec:
+  selector:
+    app: alert-sink
+  ports:
+    - port: 8080

@@ -1,0 +1,124 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: postgres-init
+  namespace: settle
+data:
+  10-roles.sh: |
+    #!/bin/sh
+    set -eu
+    psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" --dbname "$POSTGRES_DB" <<EOSQL
+    CREATE ROLE settle_owner LOGIN PASSWORD '${SETTLE_OWNER_PASSWORD}' CONNECTION LIMIT 4;
+    CREATE ROLE settle_app   LOGIN PASSWORD '${SETTLE_APP_PASSWORD}'   CONNECTION LIMIT 88;
+    CREATE ROLE exporter     LOGIN PASSWORD '${EXPORTER_PASSWORD}'     CONNECTION LIMIT 2;
+    GRANT pg_monitor TO exporter;
+    ALTER DATABASE settle OWNER TO settle_owner;
+    ALTER SCHEMA public OWNER TO settle_owner;
+    REVOKE CREATE ON SCHEMA public FROM PUBLIC;
+    GRANT USAGE ON SCHEMA public TO settle_app;
+    ALTER DEFAULT PRIVILEGES FOR ROLE settle_owner IN SCHEMA public
+      GRANT SELECT, INSERT, UPDATE, DELETE ON TABLES TO settle_app;
+    ALTER DEFAULT PRIVILEGES FOR ROLE settle_owner IN SCHEMA public
+      GRANT USAGE, SELECT ON SEQUENCES TO settle_app;
+    EOSQL
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: postgres
+  namespace: settle
+spec:
+  serviceName: postgres-db
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: postgres
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: postgres
+        settle.paylane.io/role: database-backend
+    spec:
+      automountServiceAccountToken: false
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 70
+        runAsGroup: 70
+        fsGroup: 70
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+        - name: postgres
+          image: postgres:15-alpine
+          args:
+            - -c
+            - max_connections=100
+            - -c
+            - superuser_reserved_connections=3
+            - -c
+            - log_lock_waits=on
+            - -c
+            - log_min_duration_statement=1000
+            - -c
+            - "log_line_prefix=%m [%p] %q%u@%d "
+          env:
+            - name: POSTGRES_USER
+              value: postgres
+            - name: POSTGRES_DB
+              value: settle
+            - name: PGDATA
+              value: /var/lib/postgresql/data/pgdata
+          envFrom:
+            - secretRef:
+                name: postgres-admin
+          ports:
+            - name: postgres
+              containerPort: 5432
+          readinessProbe:
+            exec:
+              command: ["pg_isready", "-U", "postgres", "-d", "settle"]
+            periodSeconds: 5
+          resources:
+            requests:
+              cpu: 100m
+              memory: 256Mi
+            limits:
+              memory: 512Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop: ["ALL"]
+          volumeMounts:
+            - name: data
+              mountPath: /var/lib/postgresql/data
+            - name: init
+              mountPath: /docker-entrypoint-initdb.d
+            - name: run
+              mountPath: /var/run/postgresql
+      volumes:
+        - name: init
+          configMap:
+            name: postgres-init
+            defaultMode: 0555
+        - name: run
+          emptyDir: {}
+  volumeClaimTemplates:
+    - metadata:
+        name: data
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        resources:
+          requests:
+            storage: 2Gi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres-db
+  namespace: settle
+spec:
+  selector:
+    app.kubernetes.io/name: postgres
+  ports:
+    - name: postgres
+      port: 5432

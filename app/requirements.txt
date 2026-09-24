@@ -1,0 +1,10 @@
+fastapi==0.141.1
+starlette==1.7.0
+pydantic==2.13.5
+uvicorn[standard]==0.53.0
+gunicorn==26.2.0
+sqlalchemy==2.0.54
+psycopg[binary]==3.3.6
+redis==8.1.0
+httpx==0.28.1
+prometheus-client==0.26.0

@@ -1,0 +1,51 @@
+# kubectl -n settle describe pod settle-api-7c9d8f5b6-xk2lp   (captured 14:29:40)
+Name:             settle-api-7c9d8f5b6-xk2lp
+Namespace:        settle
+Node:             node-2/192.168.10.12
+Start Time:       Fri, 14 Aug 2026 14:02:41 +0000
+Labels:           app=settle-api
+                  pod-template-hash=7c9d8f5b6
+Status:           Running
+IP:               10.42.2.31
+Controlled By:    ReplicaSet/settle-api-7c9d8f5b6
+Containers:
+  api:
+    Image:          registry.paylane.internal/settle-api:latest
+    Image ID:       registry.paylane.internal/settle-api@sha256:8f3c1a9be27d4410c0f5b6e9a3d17c2284f0e5a6b1c9d7e3f2a4b5c6d7e8f901
+    Port:           8000/TCP
+    State:          Waiting
+      Reason:       CrashLoopBackOff
+    Last State:     Terminated
+      Reason:       Error
+      Exit Code:    137
+      Started:      Fri, 14 Aug 2026 14:28:51 +0000
+      Finished:     Fri, 14 Aug 2026 14:29:07 +0000
+    Ready:          False
+    Restart Count:  23
+    Requests:
+      cpu:      100m
+      memory:   128Mi
+    Liveness:   http-get http://:8000/healthz delay=5s timeout=1s period=5s #success=1 #failure=1
+    Readiness:  http-get http://:8000/healthz delay=0s timeout=1s period=5s #success=1 #failure=3
+    Environment Variables from:
+      settle-config  ConfigMap  Optional: false
+      settle-db      Secret     Optional: false
+    Mounts:
+      /var/log/settle from logs (rw)
+Conditions:
+  Type              Status
+  Ready             False
+  ContainersReady   False
+Volumes:
+  logs:
+    Type:          HostPath (bare host directory volume)
+    Path:          /var/log/settle
+    HostPathType:  DirectoryOrCreate
+QoS Class:         Burstable
+Events:
+  Type     Reason     Age                   From     Message
+  ----     ------     ----                  ----     -------
+  Warning  Unhealthy  27m (x4 over 27m)     kubelet  Liveness probe failed: Get "http://10.42.2.31:8000/healthz": context deadline exceeded (Client.Timeout exceeded while awaiting headers)
+  Warning  Unhealthy  24m (x19 over 26m)    kubelet  Liveness probe failed: HTTP probe failed with statuscode: 500
+  Normal   Killing    2m33s (x23 over 27m)  kubelet  Container api failed liveness probe, will be restarted
+  Warning  BackOff    38s (x61 over 24m)    kubelet  Back-off restarting failed container api in pod settle-api-7c9d8f5b6-xk2lp

@@ -1,0 +1,50 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: settle-dashboard
+  namespace: monitoring
+  labels:
+    grafana_dashboard: '1'
+data:
+  settle-overview.json: "{\n \"uid\": \"settle-overview\",\n \"title\": \"settle overview\",\n \"schemaVersion\": 39,\n \"tags\": [\n  \"settle\"\n ],\n \"time\": {\n  \"from\": \"now-1h\",\n  \"to\": \"\
+    now\"\n },\n \"refresh\": \"15s\",\n \"panels\": [\n  {\n   \"type\": \"stat\",\n   \"title\": \"SLO 1 good ratio (1h)\",\n   \"gridPos\": {\n    \"x\": 0,\n    \"y\": 0,\n    \"w\": 6,\n    \"h\":\
+    \ 4\n   },\n   \"datasource\": {\n    \"type\": \"prometheus\",\n    \"uid\": \"prometheus\"\n   },\n   \"fieldConfig\": {\n    \"defaults\": {\n     \"unit\": \"percentunit\"\n    },\n    \"overrides\"\
+    : []\n   },\n   \"targets\": [\n    {\n     \"expr\": \"1 - settle:slo_requests_bad:ratio_rate1h\",\n     \"refId\": \"A\"\n    }\n   ]\n  },\n  {\n   \"type\": \"stat\",\n   \"title\": \"Error budget\
+    \ burn rate (1h, x)\",\n   \"gridPos\": {\n    \"x\": 6,\n    \"y\": 0,\n    \"w\": 6,\n    \"h\": 4\n   },\n   \"datasource\": {\n    \"type\": \"prometheus\",\n    \"uid\": \"prometheus\"\n   },\n\
+    \   \"fieldConfig\": {\n    \"defaults\": {\n     \"unit\": \"none\"\n    },\n    \"overrides\": []\n   },\n   \"targets\": [\n    {\n     \"expr\": \"settle:slo_requests_bad:ratio_rate1h / 0.005\"\
+    ,\n     \"refId\": \"A\"\n    }\n   ]\n  },\n  {\n   \"type\": \"stat\",\n   \"title\": \"Duplicate payouts (bank ledger)\",\n   \"gridPos\": {\n    \"x\": 12,\n    \"y\": 0,\n    \"w\": 6,\n    \"\
+    h\": 4\n   },\n   \"datasource\": {\n    \"type\": \"prometheus\",\n    \"uid\": \"prometheus\"\n   },\n   \"fieldConfig\": {\n    \"defaults\": {\n     \"unit\": \"none\"\n    },\n    \"overrides\"\
+    : []\n   },\n   \"targets\": [\n    {\n     \"expr\": \"max(settle_reconciliation_duplicate_payouts)\",\n     \"refId\": \"A\"\n    }\n   ]\n  },\n  {\n   \"type\": \"stat\",\n   \"title\": \"Oldest\
+    \ queued payout\",\n   \"gridPos\": {\n    \"x\": 18,\n    \"y\": 0,\n    \"w\": 6,\n    \"h\": 4\n   },\n   \"datasource\": {\n    \"type\": \"prometheus\",\n    \"uid\": \"prometheus\"\n   },\n  \
+    \ \"fieldConfig\": {\n    \"defaults\": {\n     \"unit\": \"s\"\n    },\n    \"overrides\": []\n   },\n   \"targets\": [\n    {\n     \"expr\": \"max(settle_queue_oldest_job_age_seconds)\",\n     \"\
+    refId\": \"A\"\n    }\n   ]\n  },\n  {\n   \"type\": \"timeseries\",\n   \"title\": \"Ingress requests by status\",\n   \"gridPos\": {\n    \"x\": 0,\n    \"y\": 4,\n    \"w\": 12,\n    \"h\": 8\n \
+    \  },\n   \"datasource\": {\n    \"type\": \"prometheus\",\n    \"uid\": \"prometheus\"\n   },\n   \"fieldConfig\": {\n    \"defaults\": {\n     \"unit\": \"reqps\"\n    },\n    \"overrides\": []\n\
+    \   },\n   \"targets\": [\n    {\n     \"expr\": \"sum by (status) (rate(nginx_ingress_controller_requests{ingress=~\\\"settle-api.*\\\"}[1m]))\",\n     \"legendFormat\": \"{{status}}\",\n     \"refId\"\
+    : \"A\"\n    }\n   ]\n  },\n  {\n   \"type\": \"timeseries\",\n   \"title\": \"API latency p50 / p99 by route\",\n   \"gridPos\": {\n    \"x\": 12,\n    \"y\": 4,\n    \"w\": 12,\n    \"h\": 8\n   },\n\
+    \   \"datasource\": {\n    \"type\": \"prometheus\",\n    \"uid\": \"prometheus\"\n   },\n   \"fieldConfig\": {\n    \"defaults\": {\n     \"unit\": \"s\"\n    },\n    \"overrides\": []\n   },\n   \"\
+    targets\": [\n    {\n     \"expr\": \"histogram_quantile(0.99, sum by (le, route) (rate(settle_http_request_duration_seconds_bucket[5m])))\",\n     \"legendFormat\": \"p99 {{route}}\",\n     \"refId\"\
+    : \"A\"\n    },\n    {\n     \"expr\": \"histogram_quantile(0.5, sum by (le) (rate(settle_http_request_duration_seconds_bucket[5m])))\",\n     \"legendFormat\": \"p50 all\",\n     \"refId\": \"B\"\n\
+    \    }\n   ]\n  },\n  {\n   \"type\": \"timeseries\",\n   \"title\": \"5xx ratio by version (release verification signal)\",\n   \"gridPos\": {\n    \"x\": 0,\n    \"y\": 12,\n    \"w\": 12,\n    \"\
+    h\": 8\n   },\n   \"datasource\": {\n    \"type\": \"prometheus\",\n    \"uid\": \"prometheus\"\n   },\n   \"fieldConfig\": {\n    \"defaults\": {\n     \"unit\": \"percentunit\"\n    },\n    \"overrides\"\
+    : []\n   },\n   \"targets\": [\n    {\n     \"expr\": \"settle:http_5xx:ratio_rate1m_by_version\",\n     \"legendFormat\": \"{{version}}\",\n     \"refId\": \"A\"\n    }\n   ]\n  },\n  {\n   \"type\"\
+    : \"timeseries\",\n   \"title\": \"Postgres connections vs max\",\n   \"gridPos\": {\n    \"x\": 12,\n    \"y\": 12,\n    \"w\": 12,\n    \"h\": 8\n   },\n   \"datasource\": {\n    \"type\": \"prometheus\"\
+    ,\n    \"uid\": \"prometheus\"\n   },\n   \"fieldConfig\": {\n    \"defaults\": {\n     \"unit\": \"short\"\n    },\n    \"overrides\": []\n   },\n   \"targets\": [\n    {\n     \"expr\": \"sum(pg_stat_activity_count{datname=\\\
+    \"settle\\\"})\",\n     \"legendFormat\": \"in use\",\n     \"refId\": \"A\"\n    },\n    {\n     \"expr\": \"max(pg_settings_max_connections)\",\n     \"legendFormat\": \"max_connections\",\n     \"\
+    refId\": \"B\"\n    },\n    {\n     \"expr\": \"sum(settle_db_pool_connections_checked_out)\",\n     \"legendFormat\": \"checked out by settle-api\",\n     \"refId\": \"C\"\n    }\n   ]\n  },\n  {\n\
+    \   \"type\": \"timeseries\",\n   \"title\": \"Payout jobs by outcome\",\n   \"gridPos\": {\n    \"x\": 0,\n    \"y\": 20,\n    \"w\": 12,\n    \"h\": 8\n   },\n   \"datasource\": {\n    \"type\": \"\
+    prometheus\",\n    \"uid\": \"prometheus\"\n   },\n   \"fieldConfig\": {\n    \"defaults\": {\n     \"unit\": \"ops\"\n    },\n    \"overrides\": []\n   },\n   \"targets\": [\n    {\n     \"expr\":\
+    \ \"sum by (outcome) (rate(settle_jobs_total[5m]))\",\n     \"legendFormat\": \"{{outcome}}\",\n     \"refId\": \"A\"\n    }\n   ]\n  },\n  {\n   \"type\": \"timeseries\",\n   \"title\": \"Queue depth\"\
+    ,\n   \"gridPos\": {\n    \"x\": 12,\n    \"y\": 20,\n    \"w\": 12,\n    \"h\": 8\n   },\n   \"datasource\": {\n    \"type\": \"prometheus\",\n    \"uid\": \"prometheus\"\n   },\n   \"fieldConfig\"\
+    : {\n    \"defaults\": {\n     \"unit\": \"short\"\n    },\n    \"overrides\": []\n   },\n   \"targets\": [\n    {\n     \"expr\": \"max by (queue) (settle_queue_depth)\",\n     \"legendFormat\": \"\
+    {{queue}}\",\n     \"refId\": \"A\"\n    }\n   ]\n  },\n  {\n   \"type\": \"timeseries\",\n   \"title\": \"Bank calls by result\",\n   \"gridPos\": {\n    \"x\": 0,\n    \"y\": 28,\n    \"w\": 12,\n\
+    \    \"h\": 8\n   },\n   \"datasource\": {\n    \"type\": \"prometheus\",\n    \"uid\": \"prometheus\"\n   },\n   \"fieldConfig\": {\n    \"defaults\": {\n     \"unit\": \"ops\"\n    },\n    \"overrides\"\
+    : []\n   },\n   \"targets\": [\n    {\n     \"expr\": \"sum by (result) (rate(settle_bank_calls_total[5m]))\",\n     \"legendFormat\": \"{{result}}\",\n     \"refId\": \"A\"\n    }\n   ]\n  },\n  {\n\
+    \   \"type\": \"timeseries\",\n   \"title\": \"Container restarts (10m)\",\n   \"gridPos\": {\n    \"x\": 12,\n    \"y\": 28,\n    \"w\": 12,\n    \"h\": 8\n   },\n   \"datasource\": {\n    \"type\"\
+    : \"prometheus\",\n    \"uid\": \"prometheus\"\n   },\n   \"fieldConfig\": {\n    \"defaults\": {\n     \"unit\": \"short\"\n    },\n    \"overrides\": []\n   },\n   \"targets\": [\n    {\n     \"expr\"\
+    : \"sum by (pod) (increase(kube_pod_container_status_restarts_total{namespace=\\\"settle\\\"}[10m]))\",\n     \"legendFormat\": \"{{pod}}\",\n     \"refId\": \"A\"\n    }\n   ]\n  },\n  {\n   \"type\"\
+    : \"timeseries\",\n   \"title\": \"Running versions\",\n   \"gridPos\": {\n    \"x\": 0,\n    \"y\": 36,\n    \"w\": 12,\n    \"h\": 8\n   },\n   \"datasource\": {\n    \"type\": \"prometheus\",\n \
+    \   \"uid\": \"prometheus\"\n   },\n   \"fieldConfig\": {\n    \"defaults\": {\n     \"unit\": \"short\"\n    },\n    \"overrides\": []\n   },\n   \"targets\": [\n    {\n     \"expr\": \"count by (version)\
+    \ (settle_build_info)\",\n     \"legendFormat\": \"{{version}}\",\n     \"refId\": \"A\"\n    }\n   ]\n  },\n  {\n   \"type\": \"timeseries\",\n   \"title\": \"Payouts reaching the bank < 15 min (1d)\"\
+    ,\n   \"gridPos\": {\n    \"x\": 12,\n    \"y\": 36,\n    \"w\": 12,\n    \"h\": 8\n   },\n   \"datasource\": {\n    \"type\": \"prometheus\",\n    \"uid\": \"prometheus\"\n   },\n   \"fieldConfig\"\
+    : {\n    \"defaults\": {\n     \"unit\": \"percentunit\"\n    },\n    \"overrides\": []\n   },\n   \"targets\": [\n    {\n     \"expr\": \"settle:payouts_within_15m:ratio_rate1d\",\n     \"legendFormat\"\
+    : \"ratio\",\n     \"refId\": \"A\"\n    }\n   ]\n  }\n ]\n}"

@@ -1,0 +1,34 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: settle-verify-image-signature
+  annotations:
+    policies.kyverno.io/title: settle images must be signed by the release pipeline
+spec:
+  background: false
+  webhookTimeoutSeconds: 15
+  failurePolicy: Fail
+  rules:
+    - name: settle-api-signed-by-pipeline
+      match:
+        any:
+          - resources:
+              kinds: [Pod]
+              namespaces: [settle]
+      verifyImages:
+        - imageReferences:
+            - "settle-registry:5000/settle-api*"
+            - "*.dkr.ecr.*.amazonaws.com/settle-*/settle-api*"
+          failureAction: Enforce
+          required: true
+          verifyDigest: true
+          mutateDigest: false
+          attestors:
+            - entries:
+                - keys:
+                    publicKeys: |-
+                      __COSIGN_PUBLIC_KEY__
+                    rekor:
+                      ignoreTlog: true
+                    ctlog:
+                      ignoreSCT: true

@@ -1,0 +1,5 @@
+-r requirements.txt
+pytest==9.1.1
+fakeredis[lua]==2.38.0
+ruff==0.15.4
+pyyaml==6.0.3

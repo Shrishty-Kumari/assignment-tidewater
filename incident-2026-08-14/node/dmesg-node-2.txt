@@ -1,0 +1,7 @@
+# dmesg -T on node-2 (excerpt)
+[Fri Aug 14 13:12:44 2026] EDAC MC0: 1 CE memory read error on CPU_SrcID#0_MC#0_Chan#1_DIMM#0 (channel:1 slot:0 page:0x4a1f2 offset:0x0 grain:32 syndrome:0x0)
+[Fri Aug 14 13:12:44 2026] EDAC MC0: corrected error count: 1 (threshold 1000)
+[Fri Aug 14 14:05:18 2026] TCP: request_sock_TCP: Possible SYN flooding on port 8000. Sending cookies.  Check SNMP counters.
+[Fri Aug 14 14:31:02 2026] EXT4-fs warning (device nvme0n1p1): ext4_dx_add_entry:2463: Directory index full!
+[Fri Aug 14 14:31:40 2026] systemd-journald[412]: Under memory pressure, flushing caches.
+[Fri Aug 14 14:33:57 2026] cni0: port 7(veth3c2a91f4) entered disabled state

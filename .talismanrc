@@ -1,0 +1,27 @@
+threshold: medium
+allowed_patterns:
+- 'sha256:[a-f0-9]{64}'
+- 'h1:[A-Za-z0-9+/]{43}='
+- 'zh:[a-f0-9]{64}'
+fileignoreconfig:
+- filename: incident-2026-08-14/app/settle-api.log
+  checksum: 1f2911596ba910888db58434da31fff6d56e4b7804d5a36e9ab3b49262c9e6dd
+- filename: incident-2026-08-14/app/settle-worker.log
+  checksum: 42eb18f6de401b7cad0470c0a443dc869736359ddb479f62b8c370a5f94161a0
+- filename: incident-2026-08-14/ci/deploy-run-412.log
+  checksum: 377d30fa4b5ad2d48b5138c13ddfdeec28db1078e22b0956c7c00b7ff6801c32
+- filename: incident-2026-08-14/nginx/access.log
+  checksum: 8d5d405d48406b5327f8e48ea9b216e9249ef455326b9781c002e874cfcab233
+- filename: incident-2026-08-14/nginx/error.log
+  checksum: a9f3f6a10bed4f3c17dc9b079f72a0247de65d6845c86a6b9405636349e2c6ac
+- filename: incident-2026-08-14/postgres/postgresql.log
+  checksum: 3e9855377d7295dffa671e456aeef6907e564ccbb894820fad60192541d22af2
+- filename: incident-2026-08-14/redis/redis.log
+  checksum: b2ed808e9b2e2bcffcd41b85a201d4afd304d7cd03342ce6f5ae403837710836
+- filename: incident-2026-08-14/kubectl/describe-pod-settle-api-7c9d8f5b6-xk2lp.txt
+  checksum: 12193b597746072833c3bc25cc13ec407564feaa22834754ab8d56367f66034f
+- filename: incident-2026-08-14/kubectl/events.txt
+  checksum: 42d7bf54e169c1c8e9a19aaddde502163b7988213146888d178047a0a971346d
+- filename: tools/reconstruct_evidence.py
+  checksum: a1740edf1afd25264d540a86bbc6bc235e98eca2770310e538452d4bd0ce9b34
+version: "1.0"

@@ -1,0 +1,20 @@
+config:
+  datasourceSecret:
+    name: postgres-exporter
+    key: DATA_SOURCE_NAME
+serviceMonitor:
+  enabled: true
+  labels:
+    release: kube-prometheus-stack
+securityContext:
+  runAsNonRoot: true
+  runAsUser: 65534
+  seccompProfile:
+    type: RuntimeDefault
+containerSecurityContext:
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: true
+  capabilities:
+    drop: ["ALL"]
+resources:
+  requests: { cpu: 20m, memory: 32Mi }

@@ -1,0 +1,20 @@
+global:
+  image:
+    registry: ghcr.io
+crds:
+  migration:
+    enabled: false
+admissionController:
+  replicas: 1
+  container:
+    extraArgs:
+      allowInsecureRegistry: true
+    resources:
+      requests: { cpu: 50m, memory: 128Mi }
+      limits: { memory: 384Mi }
+backgroundController:
+  enabled: false
+cleanupController:
+  enabled: false
+reportsController:
+  enabled: false

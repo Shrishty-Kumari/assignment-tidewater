@@ -1,0 +1,21 @@
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: settle-api
+  namespace: settle
+spec:
+  maxUnavailable: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: settle-api
+---
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: settle-worker
+  namespace: settle
+spec:
+  maxUnavailable: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: settle-worker

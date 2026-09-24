@@ -1,0 +1,16 @@
+# kubectl -n settle rollout history deployment/settle-api   (captured 14:40:02)
+deployment.apps/settle-api
+REVISION  CHANGE-CAUSE
+16        <none>
+17        <none>
+18        <none>
+
+# kubectl -n settle rollout history deployment/settle-api --revision=17 | grep -E 'Image|Mounts'
+    Image:	registry.paylane.internal/settle-api:latest
+    Mounts:	<none>
+# kubectl -n settle rollout history deployment/settle-api --revision=18 | grep -E 'Image|Mounts'
+    Image:	registry.paylane.internal/settle-api:latest
+    Mounts:	/var/log/settle from logs (rw)
+
+# Note (on-call): revisions 17 and 18 reference the same tag; the tag moved to
+# sha256:8f3c1a9be27d... (1.8.0) at 14:02:31, so undo pulls 1.8.0 again.

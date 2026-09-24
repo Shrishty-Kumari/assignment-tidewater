@@ -1,0 +1,22 @@
+# df -h / on node-2 (collected by node-problem-detector snapshots)
+--- 13:30 UTC
+Filesystem      Size  Used Avail Use% Mounted on
+/dev/nvme0n1p1   98G   77.8G  20.1G  79% /
+--- 14:00 UTC
+Filesystem      Size  Used Avail Use% Mounted on
+/dev/nvme0n1p1   98G   77.8G  20.1G  79% /
+--- 14:10 UTC
+Filesystem      Size  Used Avail Use% Mounted on
+/dev/nvme0n1p1   98G   80.4G  17.5G  82% /
+--- 14:20 UTC
+Filesystem      Size  Used Avail Use% Mounted on
+/dev/nvme0n1p1   98G   84.1G  13.8G  86% /
+--- 14:30 UTC
+Filesystem      Size  Used Avail Use% Mounted on
+/dev/nvme0n1p1   98G   87.8G  10.1G  90% /
+--- 14:35 UTC
+Filesystem      Size  Used Avail Use% Mounted on
+/dev/nvme0n1p1   98G   88.3G  9.6G  90% /
+--- 14:50 UTC
+Filesystem      Size  Used Avail Use% Mounted on
+/dev/nvme0n1p1   98G   88.6G  9.3G  90% /

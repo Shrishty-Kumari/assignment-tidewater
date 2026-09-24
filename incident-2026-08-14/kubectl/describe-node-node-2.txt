@@ -1,0 +1,31 @@
+# kubectl describe node node-2   (captured 14:36:10, excerpt)
+Name:               node-2
+Roles:              <none>
+Taints:             node.kubernetes.io/disk-pressure:NoSchedule
+Conditions:
+  Type             Status  LastHeartbeatTime                 LastTransitionTime                Reason                       Message
+  ----             ------  -----------------                 ------------------                ------                       -------
+  MemoryPressure   False   Fri, 14 Aug 2026 14:36:02 +0000   Mon, 03 Aug 2026 09:12:40 +0000   KubeletHasSufficientMemory   kubelet has sufficient memory available
+  DiskPressure     True    Fri, 14 Aug 2026 14:36:02 +0000   Fri, 14 Aug 2026 14:31:05 +0000   KubeletHasDiskPressure       kubelet has disk pressure
+  PIDPressure      False   Fri, 14 Aug 2026 14:36:02 +0000   Mon, 03 Aug 2026 09:12:40 +0000   KubeletHasSufficientPID      kubelet has sufficient PID available
+  Ready            True    Fri, 14 Aug 2026 14:36:02 +0000   Mon, 03 Aug 2026 09:13:01 +0000   KubeletReady                 kubelet is posting ready status
+Capacity:
+  cpu:                8
+  ephemeral-storage:  102626232Ki
+  memory:             32863200Ki
+Allocatable:
+  cpu:                7800m
+  ephemeral-storage:  94580335255
+  memory:             32146400Ki
+Non-terminated Pods:          (4 in total)
+  Namespace    Name                            CPU Requests  Memory Requests
+  ---------    ----                            ------------  ---------------
+  kube-system  kube-proxy-9xk2m                100m (1%)     0 (0%)
+  monitoring   node-exporter-4tqzp             50m (0%)      64Mi (0%)
+  settle       redis-0                         250m (3%)     512Mi (1%)
+  settle       settle-api-5b7f9c6d4-tw9hc      100m (1%)     128Mi (0%)
+Events:
+  Type     Reason                 Age    From     Message
+  ----     ------                 ----   ----     -------
+  Warning  EvictionThresholdMet   5m5s   kubelet  Attempting to reclaim ephemeral-storage
+  Normal   NodeHasDiskPressure    5m5s   kubelet  Node node-2 status is now: NodeHasDiskPressure

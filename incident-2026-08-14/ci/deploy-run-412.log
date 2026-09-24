@@ -1,0 +1,57 @@
+# GitHub Actions run #412, workflow 'deploy' (all jobs interleaved by timestamp)
+2026-08-14T14:00:31.000Z [run] Run #412 of workflow 'deploy' triggered by push of tag v1.8.0 (actor: release engineer)
+2026-08-14T14:00:35.000Z [build] Runner: ci-runner-1 (self-hosted)
+2026-08-14T14:00:36.000Z [build] Run actions/checkout@master
+2026-08-14T14:00:44.000Z [build] Run cd app && pip install -r requirements.txt pytest fakeredis && pytest || true
+2026-08-14T14:01:19.000Z [build] Collecting fastapi  Downloading fastapi-0.116.1-py3-none-any.whl (unpinned: resolved newest)
+2026-08-14T14:01:40.000Z [build] ============================= test session starts ==============================
+2026-08-14T14:01:41.000Z [build] tests/test_api.py ...                                                     [ 75%]
+2026-08-14T14:01:41.000Z [build] tests/test_worker.py .                                                    [100%]
+2026-08-14T14:01:41.000Z [build] ============================== 4 passed in 0.61s ===============================
+2026-08-14T14:01:41.000Z [build] NOTE: tests run against SQLite with a hand-written post-0008 schema; migrations are never executed in CI
+2026-08-14T14:01:58.000Z [migrate] Runner: ci-runner-2 (self-hosted)   # job has no 'needs:', started as soon as a runner was free
+2026-08-14T14:01:58.000Z [migrate] Run echo "connecting to $(echo *** | base64)"
+2026-08-14T14:01:58.000Z [migrate] connecting to cG9zdGdyZXNxbCtwc3ljb3BnOi8vc2V0dGxlOlRpZGV3YXRlci0yMDI0IUBwb3N0Z3Jlcy5zZXR0bGUuc3ZjOjU0MzIvc2V0dGxl
+2026-08-14T14:01:58.000Z [migrate] Run for f in migrations/*.sql; do psql "***" -f "$f" || true; done
+2026-08-14T14:01:58.000Z [migrate] psql:migrations/0007_settlements_payouts.sql:9: NOTICE:  relation "merchants" already exists, skipping
+2026-08-14T14:02:05.000Z [migrate] BEGIN
+2026-08-14T14:02:05.000Z [migrate] ALTER TABLE
+2026-08-14T14:02:31.000Z [build] Run docker build -t $IMAGE:latest -t $IMAGE:v1.8.0 app/
+2026-08-14T14:02:31.000Z [build] latest: digest: sha256:8f3c1a9be27d4410c0f5b6e9a3d17c2284f0e5a6b1c9d7e3f2a4b5c6d7e8f901 size: 3056
+2026-08-14T14:02:31.000Z [build] v1.8.0: digest: sha256:8f3c1a9be27d4410c0f5b6e9a3d17c2284f0e5a6b1c9d7e3f2a4b5c6d7e8f901 size: 3056
+2026-08-14T14:02:33.000Z [build] Run trivy image --exit-code 0 $IMAGE:latest   (continue-on-error: true)
+2026-08-14T14:02:35.000Z [build] registry.paylane.internal/settle-api:latest (debian 12.11)  Total: 412 (UNKNOWN: 3, LOW: 301, MEDIUM: 94, HIGH: 13, CRITICAL: 1)
+2026-08-14T14:02:35.000Z [build] CRITICAL CVE-2025-6020 linux-pam 1.5.2-6+deb12u1 (fixed in 1.5.2-6+deb12u2) -- package only present because of the full python:3.12 base image
+2026-08-14T14:02:36.000Z [deploy] Runner: ci-runner-1 (self-hosted)
+2026-08-14T14:02:37.000Z [deploy] Run mkdir -p ~/.kube && echo "***" > ~/.kube/config && cat ~/.kube/config
+2026-08-14T14:02:37.000Z [deploy] apiVersion: v1
+2026-08-14T14:02:37.000Z [deploy] clusters:
+2026-08-14T14:02:37.000Z [deploy] - cluster:
+2026-08-14T14:02:37.000Z [deploy]     certificate-authority-data: LS0tLS1CRUdJTi... (redacted in this export; full value was printed in the original log)
+2026-08-14T14:02:37.000Z [deploy]     token: ***
+2026-08-14T14:02:40.000Z [deploy] Run kubectl apply -f deploy/k8s/
+2026-08-14T14:02:40.000Z [deploy] deployment.apps/settle-api configured
+2026-08-14T14:02:40.000Z [deploy] configmap/settle-config configured
+2026-08-14T14:02:40.000Z [deploy] horizontalpodautoscaler.autoscaling/settle-api unchanged
+2026-08-14T14:02:40.000Z [deploy] ingress.networking.k8s.io/settle-api unchanged
+2026-08-14T14:02:40.000Z [deploy] namespace/settle unchanged
+2026-08-14T14:02:40.000Z [deploy] secret/settle-db unchanged
+2026-08-14T14:02:40.000Z [deploy] service/settle-api unchanged
+2026-08-14T14:02:40.000Z [deploy] deployment.apps/settle-worker configured
+2026-08-14T14:02:41.000Z [deploy] Run kubectl -n settle set image deployment/settle-api api=$IMAGE:latest
+2026-08-14T14:02:41.000Z [deploy] Run kubectl -n settle rollout status deployment/settle-api --timeout=30m || true
+2026-08-14T14:02:42.000Z [deploy] Waiting for deployment "settle-api" rollout to finish: 2 old replicas are pending termination...
+2026-08-14T14:07:40.000Z [deploy] Waiting for deployment "settle-api" rollout to finish: 4 of 10 updated replicas are available...
+2026-08-14T14:09:48.000Z [migrate] CREATE INDEX
+2026-08-14T14:09:48.000Z [migrate] INSERT 0 1
+2026-08-14T14:09:48.000Z [migrate] COMMIT
+2026-08-14T14:09:49.000Z [migrate] Job succeeded (7m51s)
+2026-08-14T14:12:40.000Z [deploy] Waiting for deployment "settle-api" rollout to finish: 4 of 10 updated replicas are available...
+2026-08-14T14:17:40.000Z [deploy] Waiting for deployment "settle-api" rollout to finish: 4 of 10 updated replicas are available...
+2026-08-14T14:22:40.000Z [deploy] Waiting for deployment "settle-api" rollout to finish: 4 of 10 updated replicas are available...
+2026-08-14T14:27:40.000Z [deploy] Waiting for deployment "settle-api" rollout to finish: 4 of 10 updated replicas are available...
+2026-08-14T14:32:40.000Z [deploy] Waiting for deployment "settle-api" rollout to finish: 4 of 10 updated replicas are available...
+2026-08-14T14:37:40.000Z [deploy] Waiting for deployment "settle-api" rollout to finish: 4 of 10 updated replicas are available...
+2026-08-14T14:41:07.000Z [run] The run was canceled by an engineer.
+2026-08-14T14:43:10.000Z [manual] (outside CI, from an engineer laptop) docker tag settle-api:v1.7.3 registry.paylane.internal/settle-api:latest && docker push ...
+2026-08-14T14:43:10.000Z [manual] latest: digest: sha256:2b7e4d1c9a8f0e3d5c6b7a8f9e0d1c2b3a4f5e6d7c8b9a0f1e2d3c4b5a6f7e81 size: 2981

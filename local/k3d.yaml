@@ -1,0 +1,34 @@
+apiVersion: k3d.io/v1alpha5
+kind: Simple
+metadata:
+  name: settle
+servers: 1
+agents: 2
+image: rancher/k3s:v1.35.5-k3s1
+kubeAPI:
+  host: "0.0.0.0"
+  hostPort: "6550"
+ports:
+  - port: 8088:80
+    nodeFilters: [loadbalancer]
+registries:
+  create:
+    name: settle-registry
+    host: "0.0.0.0"
+    hostPort: "5001"
+options:
+  k3s:
+    extraArgs:
+      - arg: --disable=traefik
+        nodeFilters: [server:*]
+      - arg: --tls-san=host.docker.internal
+        nodeFilters: [server:*]
+      - arg: --kubelet-arg=container-log-max-size=10Mi
+        nodeFilters: [all]
+      - arg: --kubelet-arg=container-log-max-files=5
+        nodeFilters: [all]
+    nodeLabels:
+      - label: topology.kubernetes.io/zone=zone-a
+        nodeFilters: [server:0, agent:0]
+      - label: topology.kubernetes.io/zone=zone-b
+        nodeFilters: [agent:1]

@@ -1,0 +1,202 @@
+# Aggregated settle-worker pod logs (sampled 1:10 for successful payouts before 14:02; everything after 14:02 unsampled).
+2026-08-14 13:30:00,000 INFO settle.worker [settle-worker-6f8b7d9c5-4hjkl] v=1.7.3 settle-worker 1.7.3 running, concurrency=10
+2026-08-14 13:30:00,000 INFO settle.worker [settle-worker-6f8b7d9c5-9pqrs] v=1.7.3 settle-worker 1.7.3 running, concurrency=10
+2026-08-14 13:30:00,000 INFO settle.worker [settle-worker-6f8b7d9c5-c2vbn] v=1.7.3 settle-worker 1.7.3 running, concurrency=10
+2026-08-14 13:30:00,000 INFO settle.worker [settle-worker-6f8b7d9c5-wx7yz] v=1.7.3 settle-worker 1.7.3 running, concurrency=10
+2026-08-14 14:00:41,000 INFO settle.worker [scheduler] v=- daily settlement batch enqueued: 2412 payouts (settle:jobs)
+2026-08-14 14:00:42,500 INFO settle.worker [settle-worker-6f8b7d9c5-4hjkl] v=1.7.3 bank_payout_ok payout_id=881210 merchant_id=38210
+2026-08-14 14:00:42,512 INFO settle.worker [settle-worker-6f8b7d9c5-4hjkl] v=1.7.3 payout marked paid payout_id=881210
+2026-08-14 14:00:45,000 INFO settle.worker [settle-worker-6f8b7d9c5-c2vbn] v=1.7.3 bank_payout_ok payout_id=881220 merchant_id=38220
+2026-08-14 14:00:45,012 INFO settle.worker [settle-worker-6f8b7d9c5-c2vbn] v=1.7.3 payout marked paid payout_id=881220
+2026-08-14 14:00:47,500 INFO settle.worker [settle-worker-6f8b7d9c5-9pqrs] v=1.7.3 bank_payout_ok payout_id=881230 merchant_id=38230
+2026-08-14 14:00:47,512 INFO settle.worker [settle-worker-6f8b7d9c5-9pqrs] v=1.7.3 payout marked paid payout_id=881230
+2026-08-14 14:00:50,000 INFO settle.worker [settle-worker-6f8b7d9c5-4hjkl] v=1.7.3 bank_payout_ok payout_id=881240 merchant_id=38240
+2026-08-14 14:00:50,012 INFO settle.worker [settle-worker-6f8b7d9c5-4hjkl] v=1.7.3 payout marked paid payout_id=881240
+2026-08-14 14:00:52,500 INFO settle.worker [settle-worker-6f8b7d9c5-9pqrs] v=1.7.3 bank_payout_ok payout_id=881250 merchant_id=38250
+2026-08-14 14:00:52,512 INFO settle.worker [settle-worker-6f8b7d9c5-9pqrs] v=1.7.3 payout marked paid payout_id=881250
+2026-08-14 14:00:55,000 INFO settle.worker [settle-worker-6f8b7d9c5-4hjkl] v=1.7.3 bank_payout_ok payout_id=881260 merchant_id=38260
+2026-08-14 14:00:55,012 INFO settle.worker [settle-worker-6f8b7d9c5-4hjkl] v=1.7.3 payout marked paid payout_id=881260
+2026-08-14 14:00:57,500 INFO settle.worker [settle-worker-6f8b7d9c5-4hjkl] v=1.7.3 bank_payout_ok payout_id=881270 merchant_id=38270
+2026-08-14 14:00:57,512 INFO settle.worker [settle-worker-6f8b7d9c5-4hjkl] v=1.7.3 payout marked paid payout_id=881270
+2026-08-14 14:01:00,000 INFO settle.worker [settle-worker-6f8b7d9c5-4hjkl] v=1.7.3 bank_payout_ok payout_id=881280 merchant_id=38280
+2026-08-14 14:01:00,012 INFO settle.worker [settle-worker-6f8b7d9c5-4hjkl] v=1.7.3 payout marked paid payout_id=881280
+2026-08-14 14:01:02,500 INFO settle.worker [settle-worker-6f8b7d9c5-wx7yz] v=1.7.3 bank_payout_ok payout_id=881290 merchant_id=38290
+2026-08-14 14:01:02,512 INFO settle.worker [settle-worker-6f8b7d9c5-wx7yz] v=1.7.3 payout marked paid payout_id=881290
+2026-08-14 14:01:05,000 INFO settle.worker [settle-worker-6f8b7d9c5-9pqrs] v=1.7.3 bank_payout_ok payout_id=881300 merchant_id=38300
+2026-08-14 14:01:05,012 INFO settle.worker [settle-worker-6f8b7d9c5-9pqrs] v=1.7.3 payout marked paid payout_id=881300
+2026-08-14 14:01:07,500 INFO settle.worker [settle-worker-6f8b7d9c5-wx7yz] v=1.7.3 bank_payout_ok payout_id=881310 merchant_id=38310
+2026-08-14 14:01:07,512 INFO settle.worker [settle-worker-6f8b7d9c5-wx7yz] v=1.7.3 payout marked paid payout_id=881310
+2026-08-14 14:01:10,000 INFO settle.worker [settle-worker-6f8b7d9c5-4hjkl] v=1.7.3 bank_payout_ok payout_id=881320 merchant_id=38320
+2026-08-14 14:01:10,012 INFO settle.worker [settle-worker-6f8b7d9c5-4hjkl] v=1.7.3 payout marked paid payout_id=881320
+2026-08-14 14:01:12,500 INFO settle.worker [settle-worker-6f8b7d9c5-c2vbn] v=1.7.3 bank_payout_ok payout_id=881330 merchant_id=38330
+2026-08-14 14:01:12,512 INFO settle.worker [settle-worker-6f8b7d9c5-c2vbn] v=1.7.3 payout marked paid payout_id=881330
+2026-08-14 14:01:15,000 INFO settle.worker [settle-worker-6f8b7d9c5-9pqrs] v=1.7.3 bank_payout_ok payout_id=881340 merchant_id=38340
+2026-08-14 14:01:15,012 INFO settle.worker [settle-worker-6f8b7d9c5-9pqrs] v=1.7.3 payout marked paid payout_id=881340
+2026-08-14 14:01:17,500 INFO settle.worker [settle-worker-6f8b7d9c5-wx7yz] v=1.7.3 bank_payout_ok payout_id=881350 merchant_id=38350
+2026-08-14 14:01:17,512 INFO settle.worker [settle-worker-6f8b7d9c5-wx7yz] v=1.7.3 payout marked paid payout_id=881350
+2026-08-14 14:01:20,000 INFO settle.worker [settle-worker-6f8b7d9c5-4hjkl] v=1.7.3 bank_payout_ok payout_id=881360 merchant_id=38360
+2026-08-14 14:01:20,012 INFO settle.worker [settle-worker-6f8b7d9c5-4hjkl] v=1.7.3 payout marked paid payout_id=881360
+2026-08-14 14:01:22,500 INFO settle.worker [settle-worker-6f8b7d9c5-c2vbn] v=1.7.3 bank_payout_ok payout_id=881370 merchant_id=38370
+2026-08-14 14:01:22,512 INFO settle.worker [settle-worker-6f8b7d9c5-c2vbn] v=1.7.3 payout marked paid payout_id=881370
+2026-08-14 14:01:25,000 INFO settle.worker [settle-worker-6f8b7d9c5-9pqrs] v=1.7.3 bank_payout_ok payout_id=881380 merchant_id=38380
+2026-08-14 14:01:25,012 INFO settle.worker [settle-worker-6f8b7d9c5-9pqrs] v=1.7.3 payout marked paid payout_id=881380
+2026-08-14 14:01:27,500 INFO settle.worker [settle-worker-6f8b7d9c5-9pqrs] v=1.7.3 bank_payout_ok payout_id=881390 merchant_id=38390
+2026-08-14 14:01:27,512 INFO settle.worker [settle-worker-6f8b7d9c5-9pqrs] v=1.7.3 payout marked paid payout_id=881390
+2026-08-14 14:01:30,000 INFO settle.worker [settle-worker-6f8b7d9c5-wx7yz] v=1.7.3 bank_payout_ok payout_id=881400 merchant_id=38400
+2026-08-14 14:01:30,012 INFO settle.worker [settle-worker-6f8b7d9c5-wx7yz] v=1.7.3 payout marked paid payout_id=881400
+2026-08-14 14:01:32,500 INFO settle.worker [settle-worker-6f8b7d9c5-9pqrs] v=1.7.3 bank_payout_ok payout_id=881410 merchant_id=38410
+2026-08-14 14:01:32,512 INFO settle.worker [settle-worker-6f8b7d9c5-9pqrs] v=1.7.3 payout marked paid payout_id=881410
+2026-08-14 14:01:35,000 INFO settle.worker [settle-worker-6f8b7d9c5-c2vbn] v=1.7.3 bank_payout_ok payout_id=881420 merchant_id=38420
+2026-08-14 14:01:35,012 INFO settle.worker [settle-worker-6f8b7d9c5-c2vbn] v=1.7.3 payout marked paid payout_id=881420
+2026-08-14 14:01:37,500 INFO settle.worker [settle-worker-6f8b7d9c5-wx7yz] v=1.7.3 bank_payout_ok payout_id=881430 merchant_id=38430
+2026-08-14 14:01:37,512 INFO settle.worker [settle-worker-6f8b7d9c5-wx7yz] v=1.7.3 payout marked paid payout_id=881430
+2026-08-14 14:01:40,000 INFO settle.worker [settle-worker-6f8b7d9c5-9pqrs] v=1.7.3 bank_payout_ok payout_id=881440 merchant_id=38440
+2026-08-14 14:01:40,012 INFO settle.worker [settle-worker-6f8b7d9c5-9pqrs] v=1.7.3 payout marked paid payout_id=881440
+2026-08-14 14:01:42,500 INFO settle.worker [settle-worker-6f8b7d9c5-9pqrs] v=1.7.3 bank_payout_ok payout_id=881450 merchant_id=38450
+2026-08-14 14:01:42,512 INFO settle.worker [settle-worker-6f8b7d9c5-9pqrs] v=1.7.3 payout marked paid payout_id=881450
+2026-08-14 14:01:45,000 INFO settle.worker [settle-worker-6f8b7d9c5-9pqrs] v=1.7.3 bank_payout_ok payout_id=881460 merchant_id=38460
+2026-08-14 14:01:45,012 INFO settle.worker [settle-worker-6f8b7d9c5-9pqrs] v=1.7.3 payout marked paid payout_id=881460
+2026-08-14 14:01:47,500 INFO settle.worker [settle-worker-6f8b7d9c5-wx7yz] v=1.7.3 bank_payout_ok payout_id=881470 merchant_id=38470
+2026-08-14 14:01:47,512 INFO settle.worker [settle-worker-6f8b7d9c5-wx7yz] v=1.7.3 payout marked paid payout_id=881470
+2026-08-14 14:01:50,000 INFO settle.worker [settle-worker-6f8b7d9c5-4hjkl] v=1.7.3 bank_payout_ok payout_id=881480 merchant_id=38480
+2026-08-14 14:01:50,012 INFO settle.worker [settle-worker-6f8b7d9c5-4hjkl] v=1.7.3 payout marked paid payout_id=881480
+2026-08-14 14:01:52,500 INFO settle.worker [settle-worker-6f8b7d9c5-wx7yz] v=1.7.3 bank_payout_ok payout_id=881490 merchant_id=38490
+2026-08-14 14:01:52,512 INFO settle.worker [settle-worker-6f8b7d9c5-wx7yz] v=1.7.3 payout marked paid payout_id=881490
+2026-08-14 14:01:55,000 INFO settle.worker [settle-worker-6f8b7d9c5-wx7yz] v=1.7.3 bank_payout_ok payout_id=881500 merchant_id=38500
+2026-08-14 14:01:55,012 INFO settle.worker [settle-worker-6f8b7d9c5-wx7yz] v=1.7.3 payout marked paid payout_id=881500
+2026-08-14 14:01:57,500 INFO settle.worker [settle-worker-6f8b7d9c5-9pqrs] v=1.7.3 bank_payout_ok payout_id=881510 merchant_id=38510
+2026-08-14 14:01:57,512 INFO settle.worker [settle-worker-6f8b7d9c5-9pqrs] v=1.7.3 payout marked paid payout_id=881510
+2026-08-14 14:02:00,000 INFO settle.worker [settle-worker-6f8b7d9c5-4hjkl] v=1.7.3 bank_payout_ok payout_id=881520 merchant_id=38520
+2026-08-14 14:02:00,012 INFO settle.worker [settle-worker-6f8b7d9c5-4hjkl] v=1.7.3 payout marked paid payout_id=881520
+2026-08-14 14:02:02,500 INFO settle.worker [settle-worker-6f8b7d9c5-9pqrs] v=1.7.3 bank_payout_ok payout_id=881530 merchant_id=38530
+2026-08-14 14:02:02,512 INFO settle.worker [settle-worker-6f8b7d9c5-9pqrs] v=1.7.3 payout marked paid payout_id=881530
+2026-08-14 14:02:05,000 INFO settle.worker [settle-worker-6f8b7d9c5-c2vbn] v=1.7.3 bank_payout_ok payout_id=881540 merchant_id=38540
+2026-08-14 14:02:05,012 INFO settle.worker [settle-worker-6f8b7d9c5-c2vbn] v=1.7.3 payout marked paid payout_id=881540
+2026-08-14 14:02:05,712 INFO settle.worker [settle-worker-6f8b7d9c5-4hjkl] v=1.7.3 bank_payout_ok payout_id=881542 merchant_id=30098
+2026-08-14 14:02:05,897 INFO settle.worker [settle-worker-6f8b7d9c5-4hjkl] v=1.7.3 bank_payout_ok payout_id=881543 merchant_id=38017
+2026-08-14 14:02:06,213 INFO settle.worker [settle-worker-6f8b7d9c5-4hjkl] v=1.7.3 bank_payout_ok payout_id=881544 merchant_id=36936
+2026-08-14 14:02:06,474 INFO settle.worker [settle-worker-6f8b7d9c5-4hjkl] v=1.7.3 bank_payout_ok payout_id=881545 merchant_id=35855
+2026-08-14 14:02:06,681 INFO settle.worker [settle-worker-6f8b7d9c5-4hjkl] v=1.7.3 bank_payout_ok payout_id=881546 merchant_id=34774
+2026-08-14 14:02:06,938 INFO settle.worker [settle-worker-6f8b7d9c5-4hjkl] v=1.7.3 bank_payout_ok payout_id=881547 merchant_id=33693
+2026-08-14 14:02:07,145 INFO settle.worker [settle-worker-6f8b7d9c5-4hjkl] v=1.7.3 bank_payout_ok payout_id=881548 merchant_id=32612
+2026-08-14 14:02:07,389 INFO settle.worker [settle-worker-6f8b7d9c5-4hjkl] v=1.7.3 bank_payout_ok payout_id=881549 merchant_id=31531
+2026-08-14 14:02:07,582 INFO settle.worker [settle-worker-6f8b7d9c5-4hjkl] v=1.7.3 bank_payout_ok payout_id=881550 merchant_id=30450
+2026-08-14 14:02:07,887 INFO settle.worker [settle-worker-6f8b7d9c5-4hjkl] v=1.7.3 bank_payout_ok payout_id=881551 merchant_id=38369
+2026-08-14 14:02:08,102 INFO settle.worker [settle-worker-6f8b7d9c5-9pqrs] v=1.7.3 bank_payout_ok payout_id=881552 merchant_id=37288
+2026-08-14 14:02:08,415 INFO settle.worker [settle-worker-6f8b7d9c5-9pqrs] v=1.7.3 bank_payout_ok payout_id=881553 merchant_id=36207
+2026-08-14 14:02:08,718 INFO settle.worker [settle-worker-6f8b7d9c5-9pqrs] v=1.7.3 bank_payout_ok payout_id=881554 merchant_id=35126
+2026-08-14 14:02:09,033 INFO settle.worker [settle-worker-6f8b7d9c5-9pqrs] v=1.7.3 bank_payout_ok payout_id=881555 merchant_id=34045
+2026-08-14 14:02:09,242 INFO settle.worker [settle-worker-6f8b7d9c5-9pqrs] v=1.7.3 bank_payout_ok payout_id=881556 merchant_id=32964
+2026-08-14 14:02:09,459 INFO settle.worker [settle-worker-6f8b7d9c5-9pqrs] v=1.7.3 bank_payout_ok payout_id=881557 merchant_id=31883
+2026-08-14 14:02:09,717 INFO settle.worker [settle-worker-6f8b7d9c5-9pqrs] v=1.7.3 bank_payout_ok payout_id=881558 merchant_id=30802
+2026-08-14 14:02:09,933 INFO settle.worker [settle-worker-6f8b7d9c5-9pqrs] v=1.7.3 bank_payout_ok payout_id=881559 merchant_id=38721
+2026-08-14 14:02:10,163 INFO settle.worker [settle-worker-6f8b7d9c5-9pqrs] v=1.7.3 bank_payout_ok payout_id=881560 merchant_id=37640
+2026-08-14 14:02:10,373 INFO settle.worker [settle-worker-6f8b7d9c5-9pqrs] v=1.7.3 bank_payout_ok payout_id=881561 merchant_id=36559
+2026-08-14 14:02:10,564 INFO settle.worker [settle-worker-6f8b7d9c5-c2vbn] v=1.7.3 bank_payout_ok payout_id=881562 merchant_id=35478
+2026-08-14 14:02:10,807 INFO settle.worker [settle-worker-6f8b7d9c5-c2vbn] v=1.7.3 bank_payout_ok payout_id=881563 merchant_id=34397
+2026-08-14 14:02:11,016 INFO settle.worker [settle-worker-6f8b7d9c5-c2vbn] v=1.7.3 bank_payout_ok payout_id=881564 merchant_id=33316
+2026-08-14 14:02:11,301 INFO settle.worker [settle-worker-6f8b7d9c5-c2vbn] v=1.7.3 bank_payout_ok payout_id=881565 merchant_id=32235
+2026-08-14 14:02:11,493 INFO settle.worker [settle-worker-6f8b7d9c5-c2vbn] v=1.7.3 bank_payout_ok payout_id=881566 merchant_id=31154
+2026-08-14 14:02:11,745 INFO settle.worker [settle-worker-6f8b7d9c5-c2vbn] v=1.7.3 bank_payout_ok payout_id=881567 merchant_id=30073
+2026-08-14 14:02:11,970 INFO settle.worker [settle-worker-6f8b7d9c5-c2vbn] v=1.7.3 bank_payout_ok payout_id=881568 merchant_id=37992
+2026-08-14 14:02:12,224 INFO settle.worker [settle-worker-6f8b7d9c5-c2vbn] v=1.7.3 bank_payout_ok payout_id=881569 merchant_id=36911
+2026-08-14 14:02:12,408 INFO settle.worker [settle-worker-6f8b7d9c5-c2vbn] v=1.7.3 bank_payout_ok payout_id=881570 merchant_id=35830
+2026-08-14 14:02:12,614 DEBUG settle.worker [settle-worker-6f8b7d9c5-c2vbn] v=1.7.3 calling bank for payout_id=881571
+2026-08-14 14:02:12,764 INFO settle.worker [settle-worker-6f8b7d9c5-wx7yz] v=1.7.3 bank_payout_ok payout_id=881572 merchant_id=33668
+2026-08-14 14:02:13,005 INFO settle.worker [settle-worker-6f8b7d9c5-wx7yz] v=1.7.3 bank_payout_ok payout_id=881573 merchant_id=32587
+2026-08-14 14:02:13,287 INFO settle.worker [settle-worker-6f8b7d9c5-wx7yz] v=1.7.3 bank_payout_ok payout_id=881574 merchant_id=31506
+2026-08-14 14:02:13,556 INFO settle.worker [settle-worker-6f8b7d9c5-wx7yz] v=1.7.3 bank_payout_ok payout_id=881575 merchant_id=30425
+2026-08-14 14:02:13,863 INFO settle.worker [settle-worker-6f8b7d9c5-wx7yz] v=1.7.3 bank_payout_ok payout_id=881576 merchant_id=38344
+2026-08-14 14:02:14,139 INFO settle.worker [settle-worker-6f8b7d9c5-wx7yz] v=1.7.3 bank_payout_ok payout_id=881577 merchant_id=37263
+2026-08-14 14:02:14,336 INFO settle.worker [settle-worker-6f8b7d9c5-wx7yz] v=1.7.3 bank_payout_ok payout_id=881578 merchant_id=36182
+2026-08-14 14:02:14,516 INFO settle.worker [settle-worker-6f8b7d9c5-wx7yz] v=1.7.3 bank_payout_ok payout_id=881579 merchant_id=35101
+2026-08-14 14:02:14,814 DEBUG settle.worker [settle-worker-6f8b7d9c5-wx7yz] v=1.7.3 calling bank for payout_id=881580
+2026-08-14 14:02:14,964 DEBUG settle.worker [settle-worker-6f8b7d9c5-wx7yz] v=1.7.3 calling bank for payout_id=881581
+2026-08-14 14:02:44,000 --- [settle-worker-6f8b7d9c5-4hjkl] container terminated: exit code 143 (SIGTERM), no shutdown log emitted; in-flight threads abandoned
+2026-08-14 14:02:52,000 INFO settle.worker [settle-worker-84c6d7f9b-a1b2c] v=1.8.0 settle-worker 1.8.0 started, concurrency=10
+2026-08-14 14:02:52,210 WARNING settle.worker [settle-worker-84c6d7f9b-a1b2c] v=1.8.0 recovered 40 orphaned jobs from settle:processing
+2026-08-14 14:02:53,000 INFO settle.worker [settle-worker-84c6d7f9b-a1b2c] v=1.8.0 bank_payout_ok payout_id=881542 merchant_id=30098
+2026-08-14 14:02:53,221 INFO settle.worker [settle-worker-84c6d7f9b-d3e4f] v=1.8.0 bank_payout_ok payout_id=881543 merchant_id=38017
+2026-08-14 14:02:53,512 INFO settle.worker [settle-worker-84c6d7f9b-d3e4f] v=1.8.0 bank_payout_ok payout_id=881544 merchant_id=36936
+2026-08-14 14:02:53,792 INFO settle.worker [settle-worker-84c6d7f9b-a1b2c] v=1.8.0 bank_payout_ok payout_id=881545 merchant_id=35855
+2026-08-14 14:02:54,075 INFO settle.worker [settle-worker-84c6d7f9b-a1b2c] v=1.8.0 bank_payout_ok payout_id=881546 merchant_id=34774
+2026-08-14 14:02:54,357 INFO settle.worker [settle-worker-84c6d7f9b-d3e4f] v=1.8.0 bank_payout_ok payout_id=881547 merchant_id=33693
+2026-08-14 14:02:54,648 INFO settle.worker [settle-worker-84c6d7f9b-a1b2c] v=1.8.0 bank_payout_ok payout_id=881548 merchant_id=32612
+2026-08-14 14:02:54,905 INFO settle.worker [settle-worker-84c6d7f9b-a1b2c] v=1.8.0 bank_payout_ok payout_id=881549 merchant_id=31531
+2026-08-14 14:02:55,151 INFO settle.worker [settle-worker-84c6d7f9b-a1b2c] v=1.8.0 bank_payout_ok payout_id=881550 merchant_id=30450
+2026-08-14 14:02:55,378 INFO settle.worker [settle-worker-84c6d7f9b-d3e4f] v=1.8.0 bank_payout_ok payout_id=881551 merchant_id=38369
+2026-08-14 14:02:55,622 INFO settle.worker [settle-worker-84c6d7f9b-a1b2c] v=1.8.0 bank_payout_ok payout_id=881552 merchant_id=37288
+2026-08-14 14:02:55,837 INFO settle.worker [settle-worker-84c6d7f9b-a1b2c] v=1.8.0 bank_payout_ok payout_id=881553 merchant_id=36207
+2026-08-14 14:02:56,057 INFO settle.worker [settle-worker-84c6d7f9b-d3e4f] v=1.8.0 bank_payout_ok payout_id=881554 merchant_id=35126
+2026-08-14 14:02:56,349 INFO settle.worker [settle-worker-84c6d7f9b-a1b2c] v=1.8.0 bank_payout_ok payout_id=881555 merchant_id=34045
+2026-08-14 14:02:56,625 INFO settle.worker [settle-worker-84c6d7f9b-d3e4f] v=1.8.0 bank_payout_ok payout_id=881556 merchant_id=32964
+2026-08-14 14:02:56,915 INFO settle.worker [settle-worker-84c6d7f9b-a1b2c] v=1.8.0 bank_payout_ok payout_id=881557 merchant_id=31883
+2026-08-14 14:02:57,129 INFO settle.worker [settle-worker-84c6d7f9b-a1b2c] v=1.8.0 bank_payout_ok payout_id=881558 merchant_id=30802
+2026-08-14 14:02:57,384 INFO settle.worker [settle-worker-84c6d7f9b-d3e4f] v=1.8.0 bank_payout_ok payout_id=881559 merchant_id=38721
+2026-08-14 14:02:57,645 INFO settle.worker [settle-worker-84c6d7f9b-d3e4f] v=1.8.0 bank_payout_ok payout_id=881560 merchant_id=37640
+2026-08-14 14:02:57,930 INFO settle.worker [settle-worker-84c6d7f9b-a1b2c] v=1.8.0 bank_payout_ok payout_id=881561 merchant_id=36559
+2026-08-14 14:02:58,000 --- [settle-worker-6f8b7d9c5-9pqrs] container terminated: exit code 143 (SIGTERM), no shutdown log emitted; in-flight threads abandoned
+2026-08-14 14:02:58,206 INFO settle.worker [settle-worker-84c6d7f9b-d3e4f] v=1.8.0 bank_payout_ok payout_id=881562 merchant_id=35478
+2026-08-14 14:02:58,481 INFO settle.worker [settle-worker-84c6d7f9b-a1b2c] v=1.8.0 bank_payout_ok payout_id=881563 merchant_id=34397
+2026-08-14 14:02:58,735 INFO settle.worker [settle-worker-84c6d7f9b-d3e4f] v=1.8.0 bank_payout_ok payout_id=881564 merchant_id=33316
+2026-08-14 14:02:59,003 INFO settle.worker [settle-worker-84c6d7f9b-a1b2c] v=1.8.0 bank_payout_ok payout_id=881565 merchant_id=32235
+2026-08-14 14:02:59,285 INFO settle.worker [settle-worker-84c6d7f9b-d3e4f] v=1.8.0 bank_payout_ok payout_id=881566 merchant_id=31154
+2026-08-14 14:02:59,527 INFO settle.worker [settle-worker-84c6d7f9b-a1b2c] v=1.8.0 bank_payout_ok payout_id=881567 merchant_id=30073
+2026-08-14 14:02:59,778 INFO settle.worker [settle-worker-84c6d7f9b-d3e4f] v=1.8.0 bank_payout_ok payout_id=881568 merchant_id=37992
+2026-08-14 14:03:00,027 INFO settle.worker [settle-worker-84c6d7f9b-a1b2c] v=1.8.0 bank_payout_ok payout_id=881569 merchant_id=36911
+2026-08-14 14:03:00,319 INFO settle.worker [settle-worker-84c6d7f9b-d3e4f] v=1.8.0 bank_payout_ok payout_id=881570 merchant_id=35830
+2026-08-14 14:03:00,552 INFO settle.worker [settle-worker-84c6d7f9b-a1b2c] v=1.8.0 bank_payout_ok payout_id=881572 merchant_id=33668
+2026-08-14 14:03:00,805 INFO settle.worker [settle-worker-84c6d7f9b-d3e4f] v=1.8.0 bank_payout_ok payout_id=881573 merchant_id=32587
+2026-08-14 14:03:01,015 INFO settle.worker [settle-worker-84c6d7f9b-a1b2c] v=1.8.0 bank_payout_ok payout_id=881574 merchant_id=31506
+2026-08-14 14:03:01,244 INFO settle.worker [settle-worker-84c6d7f9b-a1b2c] v=1.8.0 bank_payout_ok payout_id=881575 merchant_id=30425
+2026-08-14 14:03:01,500 INFO settle.worker [settle-worker-84c6d7f9b-a1b2c] v=1.8.0 bank_payout_ok payout_id=881576 merchant_id=38344
+2026-08-14 14:03:01,727 INFO settle.worker [settle-worker-84c6d7f9b-a1b2c] v=1.8.0 bank_payout_ok payout_id=881577 merchant_id=37263
+2026-08-14 14:03:01,992 INFO settle.worker [settle-worker-84c6d7f9b-a1b2c] v=1.8.0 bank_payout_ok payout_id=881578 merchant_id=36182
+2026-08-14 14:03:02,194 INFO settle.worker [settle-worker-84c6d7f9b-d3e4f] v=1.8.0 bank_payout_ok payout_id=881579 merchant_id=35101
+2026-08-14 14:03:02,422 INFO settle.worker [settle-worker-84c6d7f9b-d3e4f] v=1.8.0 bank_payout_ok payout_id=881579 merchant_id=35042
+2026-08-14 14:03:02,672 INFO settle.worker [settle-worker-84c6d7f9b-d3e4f] v=1.8.0 bank_payout_ok payout_id=881580 merchant_id=35042
+2026-08-14 14:03:02,922 INFO settle.worker [settle-worker-84c6d7f9b-d3e4f] v=1.8.0 bank_payout_ok payout_id=881581 merchant_id=35042
+2026-08-14 14:03:06,000 INFO settle.worker [settle-worker-84c6d7f9b-d3e4f] v=1.8.0 settle-worker 1.8.0 started, concurrency=10
+2026-08-14 14:03:13,000 --- [settle-worker-6f8b7d9c5-c2vbn] container terminated: exit code 143 (SIGTERM), no shutdown log emitted; in-flight threads abandoned
+2026-08-14 14:03:20,000 INFO settle.worker [settle-worker-84c6d7f9b-g5h6j] v=1.8.0 settle-worker 1.8.0 started, concurrency=10
+2026-08-14 14:03:27,000 --- [settle-worker-6f8b7d9c5-wx7yz] container terminated: exit code 143 (SIGTERM), no shutdown log emitted; in-flight threads abandoned
+2026-08-14 14:03:34,000 INFO settle.worker [settle-worker-84c6d7f9b-k7m8n] v=1.8.0 settle-worker 1.8.0 started, concurrency=10
+2026-08-14 14:09:48,183 INFO settle.worker [settle-worker-84c6d7f9b-d3e4f] v=1.8.0 payout marked paid payout_id=881564
+2026-08-14 14:09:48,198 INFO settle.worker [settle-worker-84c6d7f9b-d3e4f] v=1.8.0 payout marked paid payout_id=881547
+2026-08-14 14:09:48,214 INFO settle.worker [settle-worker-84c6d7f9b-d3e4f] v=1.8.0 payout marked paid payout_id=881544
+2026-08-14 14:09:48,216 INFO settle.worker [settle-worker-84c6d7f9b-a1b2c] v=1.8.0 payout marked paid payout_id=881563
+2026-08-14 14:09:48,243 INFO settle.worker [settle-worker-84c6d7f9b-a1b2c] v=1.8.0 payout marked paid payout_id=881550
+2026-08-14 14:09:48,246 INFO settle.worker [settle-worker-84c6d7f9b-a1b2c] v=1.8.0 payout marked paid payout_id=881546
+2026-08-14 14:09:48,248 INFO settle.worker [settle-worker-84c6d7f9b-a1b2c] v=1.8.0 payout marked paid payout_id=881575
+2026-08-14 14:09:48,256 INFO settle.worker [settle-worker-84c6d7f9b-a1b2c] v=1.8.0 payout marked paid payout_id=881545
+2026-08-14 14:09:48,260 INFO settle.worker [settle-worker-84c6d7f9b-d3e4f] v=1.8.0 payout marked paid payout_id=881573
+2026-08-14 14:09:48,293 INFO settle.worker [settle-worker-84c6d7f9b-a1b2c] v=1.8.0 payout marked paid payout_id=881576
+2026-08-14 14:09:48,298 INFO settle.worker [settle-worker-84c6d7f9b-a1b2c] v=1.8.0 payout marked paid payout_id=881565
+2026-08-14 14:09:48,312 INFO settle.worker [settle-worker-84c6d7f9b-a1b2c] v=1.8.0 payout marked paid payout_id=881548
+2026-08-14 14:09:48,313 INFO settle.worker [settle-worker-84c6d7f9b-a1b2c] v=1.8.0 payout marked paid payout_id=881552
+2026-08-14 14:09:48,322 INFO settle.worker [settle-worker-84c6d7f9b-a1b2c] v=1.8.0 payout marked paid payout_id=881561
+2026-08-14 14:09:48,329 INFO settle.worker [settle-worker-84c6d7f9b-a1b2c] v=1.8.0 payout marked paid payout_id=881569
+2026-08-14 14:09:48,346 INFO settle.worker [settle-worker-84c6d7f9b-d3e4f] v=1.8.0 payout marked paid payout_id=881551
+2026-08-14 14:09:48,347 INFO settle.worker [settle-worker-84c6d7f9b-a1b2c] v=1.8.0 payout marked paid payout_id=881542
+2026-08-14 14:09:48,352 INFO settle.worker [settle-worker-84c6d7f9b-a1b2c] v=1.8.0 payout marked paid payout_id=881557
+2026-08-14 14:09:48,353 INFO settle.worker [settle-worker-84c6d7f9b-a1b2c] v=1.8.0 payout marked paid payout_id=881572
+2026-08-14 14:09:48,364 INFO settle.worker [settle-worker-84c6d7f9b-d3e4f] v=1.8.0 payout marked paid payout_id=881562
+2026-08-14 14:09:48,368 INFO settle.worker [settle-worker-84c6d7f9b-a1b2c] v=1.8.0 payout marked paid payout_id=881577
+2026-08-14 14:09:48,377 INFO settle.worker [settle-worker-84c6d7f9b-a1b2c] v=1.8.0 payout marked paid payout_id=881555
+2026-08-14 14:09:48,394 INFO settle.worker [settle-worker-84c6d7f9b-d3e4f] v=1.8.0 payout marked paid payout_id=881579
+2026-08-14 14:09:48,403 INFO settle.worker [settle-worker-84c6d7f9b-d3e4f] v=1.8.0 payout marked paid payout_id=881566
+2026-08-14 14:09:48,415 INFO settle.worker [settle-worker-84c6d7f9b-d3e4f] v=1.8.0 payout marked paid payout_id=881559
+2026-08-14 14:09:48,419 INFO settle.worker [settle-worker-84c6d7f9b-a1b2c] v=1.8.0 payout marked paid payout_id=881549
+2026-08-14 14:09:48,421 INFO settle.worker [settle-worker-84c6d7f9b-d3e4f] v=1.8.0 payout marked paid payout_id=881568
+2026-08-14 14:09:48,430 INFO settle.worker [settle-worker-84c6d7f9b-a1b2c] v=1.8.0 payout marked paid payout_id=881574
+2026-08-14 14:09:48,458 INFO settle.worker [settle-worker-84c6d7f9b-d3e4f] v=1.8.0 payout marked paid payout_id=881560
+2026-08-14 14:09:48,468 INFO settle.worker [settle-worker-84c6d7f9b-a1b2c] v=1.8.0 payout marked paid payout_id=881567
+2026-08-14 14:09:48,493 INFO settle.worker [settle-worker-84c6d7f9b-a1b2c] v=1.8.0 payout marked paid payout_id=881578
+2026-08-14 14:09:48,516 INFO settle.worker [settle-worker-84c6d7f9b-a1b2c] v=1.8.0 payout marked paid payout_id=881558
+2026-08-14 14:09:48,516 INFO settle.worker [settle-worker-84c6d7f9b-d3e4f] v=1.8.0 payout marked paid payout_id=881570
+2026-08-14 14:09:48,527 INFO settle.worker [settle-worker-84c6d7f9b-a1b2c] v=1.8.0 payout marked paid payout_id=881553
+2026-08-14 14:09:48,540 INFO settle.worker [settle-worker-84c6d7f9b-d3e4f] v=1.8.0 payout marked paid payout_id=881554
+2026-08-14 14:09:48,542 INFO settle.worker [settle-worker-84c6d7f9b-d3e4f] v=1.8.0 payout marked paid payout_id=881556
+2026-08-14 14:09:48,556 INFO settle.worker [settle-worker-84c6d7f9b-d3e4f] v=1.8.0 payout marked paid payout_id=881543
+2026-08-14 14:19:31,000 INFO settle.worker [settle-worker-84c6d7f9b-g5h6j] v=1.8.0 settle:jobs drained
+2026-08-14 14:31:52,000 WARNING settle.worker [settle-worker-84c6d7f9b-a1b2c] v=1.8.0 received eviction notice (node-2 DiskPressure); exiting

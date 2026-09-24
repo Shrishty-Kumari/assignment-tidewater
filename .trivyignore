@@ -1,0 +1,8 @@
+# Suppressed trivy findings. Each entry needs: why it does not apply, who
+# accepted it, and when it must be re-reviewed. Keep this list short.
+#
+# (none for the settle image at the moment: fixable HIGH/CRITICAL fail the build)
+#
+# Kubernetes misconfiguration checks:
+# AVD-KSV-0014 / KSV014 "read-only root filesystem" is satisfied for our pods;
+# the local Postgres (local/k8s, not scanned) needs a writable data dir.

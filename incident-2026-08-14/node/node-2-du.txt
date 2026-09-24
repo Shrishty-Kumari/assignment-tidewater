@@ -1,0 +1,15 @@
+# du -sh on node-2 at 14:36 (run by on-call via node debug pod)
+$ du -sh /var/lib/containerd /var/log/pods /var/log/settle /var/lib/rancher 2>/dev/null
+41G	/var/lib/containerd
+1.3G	/var/log/pods
+10.5G	/var/log/settle
+2.1G	/var/lib/rancher
+$ ls -la /var/log/settle
+-rw-r--r-- 1 root root 11285026570 Aug 14 14:36 settle.log
+$ tail -c 600 /var/log/settle/settle.log
+psycopg.OperationalError: connection failed: connection to server at "10.43.12.7", port 5432 failed: FATAL:  sorry, too many clients already
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+2026-08-14 14:36:11,904 ERROR settle.db database not ready, retrying
+Traceback (most recent call last):
+# note: /var/log/pods (kubelet-managed, rotated at 10Mi x 5) stayed small;
+#       /var/log/settle is a hostPath that nothing rotates or garbage-collects.

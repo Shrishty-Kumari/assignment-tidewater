@@ -1,0 +1,16 @@
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfplan
+.env
+local/.secrets/
+*.kubeconfig
+.act-secrets
+.DS_Store
+.release/
+images/*.tar.gz

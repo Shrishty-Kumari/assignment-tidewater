@@ -1,0 +1,14 @@
+line-length = 140
+target-version = "py312"
+
+[lint]
+select = ["E", "F", "I", "B", "UP", "S"]
+ignore = [
+  "S101",  # assert in tests
+  "S311",  # random for jitter/mock latency, not crypto
+  "S608",  # SQL is parameterised; f-strings only interpolate ints from config
+  "B008",  # FastAPI Header() defaults
+]
+
+[lint.per-file-ignores]
+"tests/**" = ["S", "B"]

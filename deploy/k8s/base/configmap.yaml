@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: settle-config
+  namespace: settle
+data:
+  REDIS_URL: redis://redis.settle.svc:6379/0
+  BANK_API_URL: http://bankmock.settle.svc:8080
+  LOG_LEVEL: INFO
+  DB_POOL_TIMEOUT: "2"
+  DB_STATEMENT_TIMEOUT_MS: "5000"
+  REPORT_STATEMENT_TIMEOUT_MS: "15000"
+  DB_LOCK_TIMEOUT_MS: "2000"
+  GUNICORN_WORKERS: "4"
+  API_DB_POOL_SIZE: "2"
+  API_DB_MAX_OVERFLOW: "0"
+  WORKER_CONCURRENCY: "4"
+  WORKER_DB_POOL_SIZE: "5"
+  WORKER_DB_MAX_OVERFLOW: "0"
+  WORKER_SHUTDOWN_TIMEOUT: "45"
+  WORKER_LEASE_SECONDS: "30"
+  WORKER_MAX_ATTEMPTS: "8"
+  BANK_TIMEOUT_SECONDS: "10"

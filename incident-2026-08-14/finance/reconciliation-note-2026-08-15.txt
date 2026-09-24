@@ -1,0 +1,23 @@
+From: finance-ops
+Date: 2026-08-15 09:40 UTC
+Subject: settle - duplicate payouts on 2026-08-14 run
+
+Bank statement reconciliation for the 14 Aug settlement run found 37 payout
+references that were paid twice (list attached, duplicate-payouts-2026-08-15.csv).
+Total overpaid: EUR 435,989.66. All other 2,375 payouts reconcile 1:1.
+
+Integrity check we ran on the settle database (read replica):
+
+  settle=> SELECT settlement_id, count(*) FROM payouts
+           WHERE created_at >= '2026-08-14' GROUP BY 1 HAVING count(*) > 1;
+   settlement_id | count
+  ---------------+-------
+  (0 rows)
+
+  settle=> SELECT count(*) FROM payouts WHERE created_at >= '2026-08-14' AND status = 'paid';
+   count
+  -------
+    2412
+
+So settle recorded exactly one payout per settlement and each is marked paid
+once; the duplicates exist only at the bank (same reference, two bank refs).
