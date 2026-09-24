@@ -134,10 +134,12 @@ def list_settlements(settlement_date: dt.date | None = None, limit: int = 50):
 def get_settlement(settlement_id: int):
     sql = """
         SELECT s.id, s.merchant_id, s.settlement_date, s.amount_minor, s.currency,
-               s.status, p.id AS payout_id, p.state AS payout_state, p.bank_ref
+               s.status, max(p.id) AS payout_id, p.state AS payout_state, p.bank_ref,
+               count(p.id) AS payout_attempts
           FROM settlements s
           LEFT JOIN payouts p ON p.settlement_id = s.id
          WHERE s.id = :id
+         GROUP BY s.id
     """
     with db.engine.connect() as conn:
         row = conn.execute(text(sql), {"id": settlement_id}).mappings().first()
